@@ -11,13 +11,13 @@ import java.util.List;
     It will be extended with actual subtypes of issues (e.g. Epic, Initiative etc.)
  */
 public abstract class IssueAbstract {
-    protected String name;
-    protected String description;
-    protected Calendar createdAt;
-    protected Calendar updatedAt;
-    protected Calendar dueDate;
-    protected List<String> assignees;
-    protected Integer priority;
+    protected String name; /// name of issue
+    protected String description; /// more detailed description
+    protected Calendar createdAt; /// date of issue creation
+    protected Calendar updatedAt; /// date of last issue update
+    protected Calendar dueDate; /// Deadline date of issue.
+    protected List<String> assignees; /// List of assignees (better to separate to object)
+    protected Integer priority; /// priority of issue (1-10)
 
     public IssueAbstract(){
         assignees = new ArrayList<>();
@@ -66,6 +66,7 @@ public abstract class IssueAbstract {
         this.priority = priority;
     }
 
+    /// internal setter
     protected void setUpdatedAt(){
         updatedAt = Calendar.getInstance();
     }
