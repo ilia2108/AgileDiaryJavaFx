@@ -10,27 +10,21 @@ import java.util.List;
     This is the most basic class. It contains all general information about issue.
     It will be extended with actual subtypes of issues (e.g. Epic, Initiative etc.)
  */
-public abstract class IssueAbstract {
-    protected String name; /// name of issue
-    protected String description; /// more detailed description
+public abstract class IssueAbstract extends EntityAbstract{
     protected Calendar createdAt; /// date of issue creation
     protected Calendar updatedAt; /// date of last issue update
     protected Calendar dueDate; /// Deadline date of issue.
     protected List<String> assignees; /// List of assignees (better to separate to object)
     protected Integer priority; /// priority of issue (1-10)
+    protected List<Theme> themes; /// list of themes which are represented by the issue
 
     public IssueAbstract(){
         assignees = new ArrayList<>();
+        themes = new ArrayList<>();
         createdAt = Calendar.getInstance();
     }
 
     //getters
-    public String getName(){
-        return name;
-    }
-    public String getDescription(){
-        return description;
-    }
     public Calendar getDueDate(){
         return dueDate;
     }
@@ -39,6 +33,9 @@ public abstract class IssueAbstract {
     }
     public Integer getPriority(){
         return priority;
+    }
+    public List<Theme> getThemes() {
+        return themes;
     }
 
     //setters
@@ -63,7 +60,16 @@ public abstract class IssueAbstract {
         assignees.add(user);
     }
     public void setPriority(Integer priority){
+        setUpdatedAt();
         this.priority = priority;
+    }
+    public void setThemes(List<Theme> themes) {
+        setUpdatedAt();
+        this.themes = themes;
+    }
+    public void addTheme(Theme theme){
+        setUpdatedAt();
+        themes.add(theme);
     }
 
     /// internal setter
