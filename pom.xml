@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>fit.biepjv</groupId>
-    <artifactId>semaphor</artifactId>
+    <artifactId>agileDiary</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
@@ -35,6 +35,18 @@
             </plugin>
         </plugins>
 
+        <!--
+        Includes fxml files during project execution with Maven.
+        Inspired by https://ru.stackoverflow.com/questions/670915/javafx-illegalstateexception-location-is-not-set
+        -->
+        <resources>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.fxml</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 

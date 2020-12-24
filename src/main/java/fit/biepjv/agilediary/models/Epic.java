@@ -19,11 +19,13 @@ public class Epic extends IssueAbstract{
             return new Epic(this);
         }
 
-        public void addStory(Story story){
+        public EpicBuilder addStory(Story story){
             fieldStories.add(story);
+            return this;
         }
-        public void stories(List<Story> stories){
+        public EpicBuilder stories(List<Story> stories){
             fieldStories = stories;
+            return this;
         }
     }
 

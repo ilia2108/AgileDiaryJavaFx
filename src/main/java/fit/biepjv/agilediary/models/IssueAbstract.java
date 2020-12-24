@@ -11,52 +11,62 @@ import java.util.List;
     It will be extended with actual subtypes of issues (e.g. Epic, Initiative etc.)
  */
 public abstract class IssueAbstract extends EntityAbstract{
-    protected Calendar createdAt; /// date of issue creation
+    protected Calendar createdAt = Calendar.getInstance(); /// date of issue creation
     protected Calendar updatedAt; /// date of last issue update
     protected Calendar dueDate; /// Deadline date of issue.
-    protected List<String> assignees; /// List of assignees (better to separate to object)
+    protected List<String> assignees = new ArrayList<>(); /// List of assignees (better to separate to object)
     protected Integer priority; /// priority of issue (1-10)
-    protected List<Theme> themes; /// list of themes which are represented by the issue
+    protected List<Theme> themes = new ArrayList<>(); /// list of themes which are represented by the issue
 
     public abstract static class IssueBuilderAbstract{
         String fieldName;
         String fieldDescription;
-        Calendar fieldCreatedAt; /// date of issue creation
+        Calendar fieldCreatedAt = Calendar.getInstance(); /// date of issue creation
         protected Calendar fieldUpdatedAt; /// date of last issue update
         protected Calendar fieldDueDate; /// Deadline date of issue.
-        protected List<String> fieldAssignees; /// List of assignees (better to separate to object)
+        protected List<String> fieldAssignees = new ArrayList<>(); /// List of assignees (better to separate to object)
         protected Integer fieldPriority; /// priority of issue (1-10)
-        protected List<Theme> fieldThemes;
+        protected List<Theme> fieldThemes = new ArrayList<>();
 
-        public void name(String name){
+        public IssueBuilderAbstract name(String name){
             fieldName = name;
+            return this;
         }
-        public void description(String description){
+        public IssueBuilderAbstract description(String description){
             fieldDescription = description;
+            return this;
         }
-        public void createdAt(Calendar createdAt){
+        public IssueBuilderAbstract createdAt(Calendar createdAt){
             fieldCreatedAt = createdAt;
+            return this;
         }
-        public void updatedAt(Calendar updatedAt){
+        public IssueBuilderAbstract updatedAt(Calendar updatedAt){
             fieldUpdatedAt = updatedAt;
+            return this;
         }
-        public void dueDate(Calendar dueDate){
+        public IssueBuilderAbstract dueDate(Calendar dueDate){
             fieldDueDate = dueDate;
+            return this;
         }
-        public void assignees(List<String> assignees){
+        public IssueBuilderAbstract assignees(List<String> assignees){
             fieldAssignees = assignees;
+            return this;
         }
-        public void addAssignee(String assignee){
+        public IssueBuilderAbstract addAssignee(String assignee){
             fieldAssignees.add(assignee);
+            return this;
         }
-        public void priority(Integer priority){
+        public IssueBuilderAbstract priority(Integer priority){
             fieldPriority = priority;
+            return this;
         }
-        public void themes(List<Theme> themes){
+        public IssueBuilderAbstract themes(List<Theme> themes){
             fieldThemes = themes;
+            return this;
         }
-        public void addTheme(Theme theme){
+        public IssueBuilderAbstract addTheme(Theme theme){
             fieldThemes.add(theme);
+            return this;
         }
 
 
@@ -65,21 +75,12 @@ public abstract class IssueAbstract extends EntityAbstract{
 
     protected IssueAbstract(){
         super();
-        assignees = new ArrayList<>();
-        themes = new ArrayList<>();
-        createdAt = Calendar.getInstance();
     }
     protected IssueAbstract(String name){
         super(name);
-        assignees = new ArrayList<>();
-        themes = new ArrayList<>();
-        createdAt = Calendar.getInstance();
     }
     protected IssueAbstract(String name, String description){
         super(name, description);
-        assignees = new ArrayList<>();
-        themes = new ArrayList<>();
-        createdAt = Calendar.getInstance();
     }
     protected IssueAbstract(IssueBuilderAbstract builder){
         super(builder.fieldName, builder.fieldDescription);

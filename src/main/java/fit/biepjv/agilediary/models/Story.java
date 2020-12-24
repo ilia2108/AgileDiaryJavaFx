@@ -16,11 +16,13 @@ public class Story extends IssueAbstract{
     public static class StoryBuilder extends IssueBuilderAbstract{
         List<Story> fieldSubstories = new ArrayList<>();
 
-        public void substories(List<Story> stories){
+        public StoryBuilder substories(List<Story> stories){
             fieldSubstories = stories;
+            return this;
         }
-        public void addSubstory(Story story){
+        public StoryBuilder addSubstory(Story story){
             fieldSubstories.add(story);
+            return this;
         }
 
         public Story build(){

@@ -16,11 +16,13 @@ public class Initiative extends IssueAbstract{
     public static class InitiativeBuilder extends IssueBuilderAbstract{
         List<Epic> fieldEpicsList = new ArrayList<>();
 
-        public void epics(List<Epic> epics){
+        public InitiativeBuilder epics(List<Epic> epics){
             fieldEpicsList = epics;
+            return this;
         }
-        public void addEpic(Epic epic){
+        public InitiativeBuilder addEpic(Epic epic){
             fieldEpicsList.add(epic);
+            return this;
         }
 
         public Initiative build(){

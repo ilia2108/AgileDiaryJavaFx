@@ -9,6 +9,11 @@ import java.util.List;
 public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     protected IssueAbstract issue = null;
 
+    public IssueControllerAbstract(){}
+//    public IssueControllerAbstract(IssueAbstract.IssueBuilderAbstract builder){
+//        issue = builder.build();
+//    }
+
     //getters
     public Calendar getDueDate(){
         return issue.getDueDate();
@@ -58,5 +63,8 @@ public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     }
     public void addTheme(Theme theme){
         issue.addTheme(theme);
+    }
+    public void setBaseIssue(IssueAbstract baseIssue){
+        issue = baseIssue;
     }
 }

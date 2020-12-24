@@ -12,7 +12,6 @@ public class InitiativeController extends IssueControllerAbstract {
     public InitiativeController(){
         issue = new Initiative();
     }
-
     public List<Epic> getIncludedIssuesList(){
         return (List<Epic>) issue.getSubIssues();
     }
