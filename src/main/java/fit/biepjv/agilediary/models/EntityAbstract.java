@@ -8,17 +8,17 @@ package fit.biepjv.agilediary.model;
     The reason for that is to separate Theme and all other stuff, which are issues.
  */
 public abstract class EntityAbstract {
-    String name; /// name of theme
-    String description; /// short description
+    protected String name; /// name of theme
+    protected String description; /// short description
 
-    public EntityAbstract(){
+    protected EntityAbstract(){
         this.name = "";
         this.description = "";
     }
-    public EntityAbstract(String name){
+    protected EntityAbstract(String name){
         this.name = name;
     }
-    public EntityAbstract(String name, String description){
+    protected EntityAbstract(String name, String description){
         this.name = name;
         this.description = description;
     }

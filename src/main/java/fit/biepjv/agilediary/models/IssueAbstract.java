@@ -18,7 +18,20 @@ public abstract class IssueAbstract extends EntityAbstract{
     protected Integer priority; /// priority of issue (1-10)
     protected List<Theme> themes; /// list of themes which are represented by the issue
 
-    public IssueAbstract(){
+    protected IssueAbstract(){
+        super();
+        assignees = new ArrayList<>();
+        themes = new ArrayList<>();
+        createdAt = Calendar.getInstance();
+    }
+    protected IssueAbstract(String name){
+        super(name);
+        assignees = new ArrayList<>();
+        themes = new ArrayList<>();
+        createdAt = Calendar.getInstance();
+    }
+    protected IssueAbstract(String name, String description){
+        super(name, description);
         assignees = new ArrayList<>();
         themes = new ArrayList<>();
         createdAt = Calendar.getInstance();
@@ -37,15 +50,27 @@ public abstract class IssueAbstract extends EntityAbstract{
     public List<Theme> getThemes() {
         return themes;
     }
+    @Override
+    public String getName() {
+        setUpdatedAt();
+        return super.getName();
+    }
+    @Override
+    public String getDescription() {
+        setUpdatedAt();
+        return super.getDescription();
+    }
+    
 
     //setters
-    public void setName(String name){
-        setUpdatedAt();
-        this.name = name;
+    @Override
+    public void setName(String name) {
+        super.setName(name);
     }
+    @Override
     public void setDescription(String description){
         setUpdatedAt();
-        this.description = description;
+        super.setDescription(description);
     }
     public void setDueDate(Calendar dueDate){
         setUpdatedAt();

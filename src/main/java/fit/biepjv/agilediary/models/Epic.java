@@ -16,6 +16,14 @@ public class Epic extends IssueAbstract{
         super();
         stories = new ArrayList<>();
     }
+    public Epic(String name){
+        super(name);
+        stories = new ArrayList<>();
+    }
+    public Epic(String name, String description){
+        super(name, description);
+        stories = new ArrayList<>();
+    }
 
     //getters
     public List<Story> getStories(){

@@ -16,6 +16,14 @@ public class Initiative extends IssueAbstract{
         super();
         epics = new ArrayList<>();
     }
+    public Initiative(String name){
+        super(name);
+        epics = new ArrayList<>();
+    }
+    public Initiative(String name, String description){
+        super(name, description);
+        epics = new ArrayList<>();
+    }
 
     //getters
     public List<Epic> getEpics() {

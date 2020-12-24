@@ -17,6 +17,14 @@ public class Story extends IssueAbstract{
         super();
         substories = new ArrayList<>();
     }
+    public Story(String name){
+        super(name);
+        substories = new ArrayList<>();
+    }
+    public Story(String name, String description){
+        super(name, description);
+        substories = new ArrayList<>();
+    }
 
     //getters
     public List<Story> getSubstories() {
