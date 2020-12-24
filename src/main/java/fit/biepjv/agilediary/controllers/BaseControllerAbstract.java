@@ -1,6 +1,9 @@
-package fit.biepjv.agilediary.controller;
+package fit.biepjv.agilediary.controllers;
 
-import fit.biepjv.agilediary.model.EntityAbstract;
+import fit.biepjv.agilediary.models.EntityAbstract;
+import fit.biepjv.agilediary.models.IssueAbstract;
+
+import java.util.List;
 
 public abstract class BaseControllerAbstract {
     protected EntityAbstract entity = null;
@@ -14,6 +17,8 @@ public abstract class BaseControllerAbstract {
         return entity.getDescription();
     }
 
+    public abstract List<? extends IssueAbstract> getIncludedIssuesList();
+
     //setters
     public void setName(String name){
         entity.setName(name);
@@ -22,4 +27,7 @@ public abstract class BaseControllerAbstract {
     public void setDescription(String description){
         entity.setDescription(description);
     }
+
+    public abstract void setIncludedIssuesList(List<? extends IssueAbstract> list);
+    public abstract void addIssue(IssueAbstract issue);
 }

@@ -1,6 +1,7 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /*  \class Initiative class
@@ -11,6 +12,22 @@ import java.util.List;
  */
 public class Initiative extends IssueAbstract{
     List<Epic> epics; /// list of epics in initiative
+
+    public static class InitiativeBuilder extends IssueBuilderAbstract{
+        List<Epic> fieldEpicsList = new ArrayList<>();
+
+        public void epics(List<Epic> epics){
+            fieldEpicsList = epics;
+        }
+        public void addEpic(Epic epic){
+            fieldEpicsList.add(epic);
+        }
+
+        public Initiative build(){
+            return new Initiative(this);
+        }
+    }
+
 
     public Initiative(){
         super();
@@ -24,19 +41,26 @@ public class Initiative extends IssueAbstract{
         super(name, description);
         epics = new ArrayList<>();
     }
+    public Initiative(InitiativeBuilder builder){
+        super(builder);
+        epics = builder.fieldEpicsList;
+    }
 
     //getters
-    public List<Epic> getEpics() {
+    public List<Epic> getSubIssues(){
         return epics;
     }
 
     //setters
-    public void setEpics(List<Epic> epics) {
+    public void setSubIssues(List<? extends IssueAbstract> epics){
         setUpdatedAt();
-        this.epics = epics;
+        for(IssueAbstract epic: epics){
+            addIssue(epic);
+        }
     }
-    public void addEpic(Epic epic){
+    public void addIssue(IssueAbstract issue){
         setUpdatedAt();
-        epics.add(epic);
+        if(issue instanceof Epic)
+            epics.add((Epic) issue);
     }
 }

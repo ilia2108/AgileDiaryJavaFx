@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,6 +18,51 @@ public abstract class IssueAbstract extends EntityAbstract{
     protected Integer priority; /// priority of issue (1-10)
     protected List<Theme> themes; /// list of themes which are represented by the issue
 
+    public abstract static class IssueBuilderAbstract{
+        String fieldName;
+        String fieldDescription;
+        Calendar fieldCreatedAt; /// date of issue creation
+        protected Calendar fieldUpdatedAt; /// date of last issue update
+        protected Calendar fieldDueDate; /// Deadline date of issue.
+        protected List<String> fieldAssignees; /// List of assignees (better to separate to object)
+        protected Integer fieldPriority; /// priority of issue (1-10)
+        protected List<Theme> fieldThemes;
+
+        public void name(String name){
+            fieldName = name;
+        }
+        public void description(String description){
+            fieldDescription = description;
+        }
+        public void createdAt(Calendar createdAt){
+            fieldCreatedAt = createdAt;
+        }
+        public void updatedAt(Calendar updatedAt){
+            fieldUpdatedAt = updatedAt;
+        }
+        public void dueDate(Calendar dueDate){
+            fieldDueDate = dueDate;
+        }
+        public void assignees(List<String> assignees){
+            fieldAssignees = assignees;
+        }
+        public void addAssignee(String assignee){
+            fieldAssignees.add(assignee);
+        }
+        public void priority(Integer priority){
+            fieldPriority = priority;
+        }
+        public void themes(List<Theme> themes){
+            fieldThemes = themes;
+        }
+        public void addTheme(Theme theme){
+            fieldThemes.add(theme);
+        }
+
+
+        public abstract IssueAbstract build();
+    }
+
     protected IssueAbstract(){
         super();
         assignees = new ArrayList<>();
@@ -35,6 +80,15 @@ public abstract class IssueAbstract extends EntityAbstract{
         assignees = new ArrayList<>();
         themes = new ArrayList<>();
         createdAt = Calendar.getInstance();
+    }
+    protected IssueAbstract(IssueBuilderAbstract builder){
+        super(builder.fieldName, builder.fieldDescription);
+        assignees = builder.fieldAssignees;
+        themes = builder.fieldThemes;
+        createdAt = builder.fieldCreatedAt;
+        updatedAt = builder.fieldUpdatedAt;
+        dueDate = builder.fieldDueDate;
+        priority = builder.fieldPriority;
     }
 
     //getters
@@ -60,7 +114,9 @@ public abstract class IssueAbstract extends EntityAbstract{
         setUpdatedAt();
         return super.getDescription();
     }
-    
+
+    public abstract List<? extends IssueAbstract> getSubIssues();
+
 
     //setters
     @Override
@@ -96,6 +152,10 @@ public abstract class IssueAbstract extends EntityAbstract{
         setUpdatedAt();
         themes.add(theme);
     }
+
+    public abstract void setSubIssues(List<? extends IssueAbstract> issues);
+    public abstract void addIssue(IssueAbstract issue);
+
 
     /// internal setter
     protected void setUpdatedAt(){

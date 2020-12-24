@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +13,21 @@ import java.util.List;
 public class Story extends IssueAbstract{
     List<Story> substories; /// list of included smaller stories (might be empty)
 
+    public static class StoryBuilder extends IssueBuilderAbstract{
+        List<Story> fieldSubstories = new ArrayList<>();
+
+        public void substories(List<Story> stories){
+            fieldSubstories = stories;
+        }
+        public void addSubstory(Story story){
+            fieldSubstories.add(story);
+        }
+
+        public Story build(){
+            return new Story(this);
+        }
+    }
+
     public Story(){
         super();
         substories = new ArrayList<>();
@@ -25,17 +40,26 @@ public class Story extends IssueAbstract{
         super(name, description);
         substories = new ArrayList<>();
     }
+    public Story(StoryBuilder builder){
+        super(builder);
+        substories = builder.fieldSubstories;
+    }
 
     //getters
-    public List<Story> getSubstories() {
+    public List<Story> getSubIssues() {
         return substories;
     }
 
     //setters
-    public void setSubstories(List<Story> substories) {
-        this.substories = substories;
+    public void setSubIssues(List<? extends IssueAbstract> substories){
+        setUpdatedAt();
+        for (IssueAbstract substory : substories) {
+            addIssue(substory);
+        }
     }
-    public void addSubstory(Story substory){
-        substories.add(substory);
+    public void addIssue(IssueAbstract issue){
+        setUpdatedAt();
+        if(issue instanceof Story)
+            substories.add((Story) issue);
     }
 }

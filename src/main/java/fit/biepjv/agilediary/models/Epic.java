@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +12,21 @@ import java.util.List;
 public class Epic extends IssueAbstract{
     List<Story> stories; /// list of stories in epic
 
+    public static class EpicBuilder extends IssueBuilderAbstract{
+        List<Story> fieldStories = new ArrayList<>();
+
+        public Epic build(){
+            return new Epic(this);
+        }
+
+        public void addStory(Story story){
+            fieldStories.add(story);
+        }
+        public void stories(List<Story> stories){
+            fieldStories = stories;
+        }
+    }
+
     public Epic(){
         super();
         stories = new ArrayList<>();
@@ -24,19 +39,29 @@ public class Epic extends IssueAbstract{
         super(name, description);
         stories = new ArrayList<>();
     }
+    public Epic(EpicBuilder builder){
+        super(builder);
+        this.name = builder.fieldName;
+        this.description = builder.fieldDescription;
+        this.stories = builder.fieldStories;
+    }
+
 
     //getters
-    public List<Story> getStories(){
+    public List<Story> getSubIssues(){
         return stories;
     }
 
     //setters
-    public void setStories(List<Story> stories){
+    public void setSubIssues(List<? extends IssueAbstract> stories){
         setUpdatedAt();
-        this.stories = stories;
+        for (IssueAbstract story : stories) {
+            addIssue(story);
+        }
     }
-    public void addStory(Story story){
+    public void addIssue(IssueAbstract issue){
         setUpdatedAt();
-        stories.add(story);
+        if(issue instanceof Story)
+            stories.add((Story) issue);
     }
 }

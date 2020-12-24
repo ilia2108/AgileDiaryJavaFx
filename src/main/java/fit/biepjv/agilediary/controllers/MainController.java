@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.controller;
+package fit.biepjv.agilediary.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
@@ -20,14 +20,17 @@ public class MainController {
     public Map<EntityTypes, BaseControllerAbstract> controllersList = initControllers();
 
     public enum EntityTypes{
-        THEME, INITIATIVE, EPIC, STORY, SUBSTORY
+        THEME, INITIATIVE, EPIC, STORY
     }
 
     private Map<EntityTypes, BaseControllerAbstract> initControllers(){
         Map<EntityTypes, BaseControllerAbstract> result = new HashMap<>();
 
         //todo: fill for all from EntityTypes
-        //result.put(EntityTypes.THEME, new BaseController());
+        result.put(EntityTypes.THEME, new ThemeController());
+        result.put(EntityTypes.INITIATIVE, new InitiativeController());
+        result.put(EntityTypes.EPIC, new EpicController());
+        result.put(EntityTypes.STORY, new StoryController());
 
         return result;
     }

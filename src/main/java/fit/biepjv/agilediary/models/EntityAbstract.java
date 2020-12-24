@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 /*
     \class Abstract Entity class
@@ -8,13 +8,10 @@ package fit.biepjv.agilediary.model;
     The reason for that is to separate Theme and all other stuff, which are issues.
  */
 public abstract class EntityAbstract {
-    protected String name; /// name of theme
-    protected String description; /// short description
+    protected String name=""; /// name of theme
+    protected String description=""; /// short description
 
-    protected EntityAbstract(){
-        this.name = "";
-        this.description = "";
-    }
+    protected EntityAbstract() { }
     protected EntityAbstract(String name){
         this.name = name;
     }
@@ -22,6 +19,8 @@ public abstract class EntityAbstract {
         this.name = name;
         this.description = description;
     }
+
+
 
     //getters
     public String getName() {

@@ -1,4 +1,4 @@
-package fit.biepjv.agilediary.model;
+package fit.biepjv.agilediary.models;
 
 /*
     \class Theme class
