@@ -11,16 +11,14 @@ import java.util.List;
     It will be extended with actual subtypes of issues (e.g. Epic, Initiative etc.)
  */
 public abstract class IssueAbstract extends EntityAbstract{
-    protected Calendar createdAt = Calendar.getInstance(); /// date of issue creation
-    protected Calendar updatedAt; /// date of last issue update
+    //protected Calendar createdAt = Calendar.getInstance(); /// date of issue creation
+    //protected Calendar updatedAt; /// date of last issue update
     protected Calendar dueDate; /// Deadline date of issue.
     protected List<String> assignees = new ArrayList<>(); /// List of assignees (better to separate to object)
     protected Integer priority; /// priority of issue (1-10)
     protected List<Theme> themes = new ArrayList<>(); /// list of themes which are represented by the issue
 
-    public abstract static class IssueBuilderAbstract{
-        String fieldName;
-        String fieldDescription;
+    public abstract static class IssueBuilderAbstract extends EntityAbstract.EntityBuilderAbstract{
         Calendar fieldCreatedAt = Calendar.getInstance(); /// date of issue creation
         protected Calendar fieldUpdatedAt; /// date of last issue update
         protected Calendar fieldDueDate; /// Deadline date of issue.
@@ -28,14 +26,6 @@ public abstract class IssueAbstract extends EntityAbstract{
         protected Integer fieldPriority; /// priority of issue (1-10)
         protected List<Theme> fieldThemes = new ArrayList<>();
 
-        public IssueBuilderAbstract name(String name){
-            fieldName = name;
-            return this;
-        }
-        public IssueBuilderAbstract description(String description){
-            fieldDescription = description;
-            return this;
-        }
         public IssueBuilderAbstract createdAt(Calendar createdAt){
             fieldCreatedAt = createdAt;
             return this;
@@ -69,8 +59,6 @@ public abstract class IssueAbstract extends EntityAbstract{
             return this;
         }
 
-
-        public abstract IssueAbstract build();
     }
 
     protected IssueAbstract(){
@@ -83,11 +71,9 @@ public abstract class IssueAbstract extends EntityAbstract{
         super(name, description);
     }
     protected IssueAbstract(IssueBuilderAbstract builder){
-        super(builder.fieldName, builder.fieldDescription);
+        super(builder);
         assignees = builder.fieldAssignees;
         themes = builder.fieldThemes;
-        createdAt = builder.fieldCreatedAt;
-        updatedAt = builder.fieldUpdatedAt;
         dueDate = builder.fieldDueDate;
         priority = builder.fieldPriority;
     }
@@ -107,12 +93,12 @@ public abstract class IssueAbstract extends EntityAbstract{
     }
     @Override
     public String getName() {
-        setUpdatedAt();
+        //setUpdatedAt();
         return super.getName();
     }
     @Override
     public String getDescription() {
-        setUpdatedAt();
+        //setUpdatedAt();
         return super.getDescription();
     }
 
@@ -126,31 +112,31 @@ public abstract class IssueAbstract extends EntityAbstract{
     }
     @Override
     public void setDescription(String description){
-        setUpdatedAt();
+        //setUpdatedAt();
         super.setDescription(description);
     }
     public void setDueDate(Calendar dueDate){
-        setUpdatedAt();
+        //setUpdatedAt();
         this.dueDate = dueDate;
     }
     public void setAssignees(List<String> assignees){
-        setUpdatedAt();
+        //setUpdatedAt();
         this.assignees = assignees;
     }
     public void addAssignee(String user){
-        setUpdatedAt();
+        //setUpdatedAt();
         assignees.add(user);
     }
     public void setPriority(Integer priority){
-        setUpdatedAt();
+        //setUpdatedAt();
         this.priority = priority;
     }
     public void setThemes(List<Theme> themes) {
-        setUpdatedAt();
+        //setUpdatedAt();
         this.themes = themes;
     }
     public void addTheme(Theme theme){
-        setUpdatedAt();
+        //setUpdatedAt();
         themes.add(theme);
     }
 
@@ -159,7 +145,7 @@ public abstract class IssueAbstract extends EntityAbstract{
 
 
     /// internal setter
-    protected void setUpdatedAt(){
-        updatedAt = Calendar.getInstance();
-    }
+//    protected void setUpdatedAt(){
+//        updatedAt = Calendar.getInstance();
+//    }
 }

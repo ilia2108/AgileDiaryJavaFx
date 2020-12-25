@@ -30,16 +30,8 @@ public class Main extends javafx.application.Application {
         Parent root = loader.load();
         mainController = loader.getController();
         stage.setTitle("Agile Diary");
-
-        mainController.btn_AddDefault.setOnMouseClicked(new AddIssueEventHandler("initiative") {
-            @Override
-            public void handle(Event event) {
-                //todo: call other page and finish
-            }
-        });
-
-        Boolean noElems =
-                mainController.controllersList
+        boolean noElems =
+                MainController.controllersList
                         .get("initiative")
                         .getIncludedIssuesList()
                         .size() == 0;
@@ -47,11 +39,20 @@ public class Main extends javafx.application.Application {
         mainController.grid_themes.setVisible(!noElems);
         mainController.grid_NavigationButtons.setVisible(!noElems);
         mainController.grid_noContent.setVisible(noElems);
+        mainController.btn_Back.setVisible(false);
 
         Scene scene = new Scene(root, 600,400);
         stage.setScene(scene);
         stage.show();
 
+
+        mainController.btn_AddDefault.setOnMouseClicked(new AddIssueEventHandler(
+                "theme", stage, mainController.ThemeControllers, mainController.InitiativeControllers) {
+            @Override
+            public void handle(Event event) {
+                super.handle(event);
+            }
+        });
 
 
 

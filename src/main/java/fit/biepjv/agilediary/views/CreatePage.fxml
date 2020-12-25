@@ -1,14 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="fit.biepjv.agilediary.controllers.ThemeCreateController"
-            prefHeight="400.0" prefWidth="600.0">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fit.biepjv.agilediary.controllers.CreateController">
+   <children>
+      <ScrollPane layoutX="11.0">
+         <content>
+            <VBox prefHeight="386.0" prefWidth="578.0">
+               <children>
+                  <Label fx:id="txt_Heading" prefHeight="70.0" prefWidth="256.0" text="Add &lt;issue&gt;">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <HBox>
+                     <padding>
+                        <Insets right="20" />
+                     </padding>
+                     <children>
+                        <Label text="Name" />
+                        <TextArea fx:id="txt_Name" prefHeight="15.0" prefWidth="400.0" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <padding>
+                        <Insets right="20" />
+                     </padding>
+                     <children>
+                        <Label text="Description" />
+                        <TextArea fx:id="txt_Description" prefHeight="50.0" prefWidth="400.0" />
+                     </children>
+                  </HBox>
+      
+                     <VBox fx:id="vBox_IssuesForm">
+                        <padding>
+                           <Insets bottom="20" right="20" top="5" />
+                        </padding>
+                        <children>
+                           <HBox>
+                              <children>
+                                 <Label text="Assignee" />
+                                 <TextArea fx:id="txt_Assignees" prefHeight="15.0" prefWidth="400.0" />
+                              </children>
+                           </HBox>
+                           <HBox>
+                              <children>
+                                 <Label text="Priority" />
+                                 <TextArea fx:id="txt_Priority" prefHeight="15.0" prefWidth="400.0" />
+                              </children>
+                           </HBox>
+                           <HBox>
+                              <children>
+                                 <Label text="Themes" />
+                                 <TextArea fx:id="txt_Themes" prefHeight="15.0" prefWidth="400.0" />
+                              </children>
+                           </HBox>
+                           <HBox>
+                              <children>
+                                 <Label text="Due date" />
+                                 <TextArea fx:id="txt_DueDate" prefHeight="15.0" prefWidth="400.0" />
+                              </children>
+                           </HBox>
+                        </children>
+                     </VBox>
+                  <Button fx:id="btn_Add" mnemonicParsing="false" text="Add" />
+               </children>
+            </VBox>
+         </content>
+      </ScrollPane>
 
+   </children>
 </AnchorPane>

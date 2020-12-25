@@ -56,13 +56,13 @@ public class Epic extends IssueAbstract{
 
     //setters
     public void setSubIssues(List<? extends IssueAbstract> stories){
-        setUpdatedAt();
+        //setUpdatedAt();
         for (IssueAbstract story : stories) {
             addIssue(story);
         }
     }
     public void addIssue(IssueAbstract issue){
-        setUpdatedAt();
+        //setUpdatedAt();
         if(issue instanceof Story)
             stories.add((Story) issue);
     }

@@ -6,8 +6,23 @@ import fit.biepjv.agilediary.models.Story;
 import java.util.List;
 
 public class StoryController extends IssueControllerAbstract{
+
+    public static class StoryControllerBuilder extends IssueControllerBuilderAbstract{
+        public StoryControllerBuilder(){
+            issueBuilder = new Story.StoryBuilder();
+        }
+
+        @Override
+        public IssueControllerAbstract build() {
+            return new StoryController(this);
+        }
+    }
+
     public StoryController(){
         issue = new Story();
+    }
+    public StoryController(StoryControllerBuilder builder){
+        super(builder);
     }
 
     public List<Story> getIncludedIssuesList(){

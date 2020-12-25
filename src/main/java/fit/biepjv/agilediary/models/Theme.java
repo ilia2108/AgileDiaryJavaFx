@@ -1,5 +1,7 @@
 package fit.biepjv.agilediary.models;
 
+import javax.swing.text.html.parser.Entity;
+
 /*
     \class Theme class
     \brief Class describing the Theme
@@ -10,7 +12,7 @@ package fit.biepjv.agilediary.models;
  */
 public class Theme extends EntityAbstract{
 
-    public static class ThemeBuilder{
+    public static class ThemeBuilder extends EntityBuilderAbstract {
         String fieldName;
         String fieldDescription;
 
@@ -22,7 +24,7 @@ public class Theme extends EntityAbstract{
             fieldDescription = description;
             return this;
         }
-        public Theme build(){
+        public EntityAbstract build(){
             return new Theme(this);
         }
     }

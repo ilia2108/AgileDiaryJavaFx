@@ -54,13 +54,13 @@ public class Story extends IssueAbstract{
 
     //setters
     public void setSubIssues(List<? extends IssueAbstract> substories){
-        setUpdatedAt();
+        //setUpdatedAt();
         for (IssueAbstract substory : substories) {
             addIssue(substory);
         }
     }
     public void addIssue(IssueAbstract issue){
-        setUpdatedAt();
+        //setUpdatedAt();
         if(issue instanceof Story)
             substories.add((Story) issue);
     }

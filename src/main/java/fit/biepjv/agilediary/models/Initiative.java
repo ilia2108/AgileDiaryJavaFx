@@ -55,13 +55,13 @@ public class Initiative extends IssueAbstract{
 
     //setters
     public void setSubIssues(List<? extends IssueAbstract> epics){
-        setUpdatedAt();
+        //setUpdatedAt();
         for(IssueAbstract epic: epics){
             addIssue(epic);
         }
     }
     public void addIssue(IssueAbstract issue){
-        setUpdatedAt();
+        //setUpdatedAt();
         if(issue instanceof Epic)
             epics.add((Epic) issue);
     }

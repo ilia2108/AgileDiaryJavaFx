@@ -11,6 +11,21 @@ public abstract class EntityAbstract {
     protected String name=""; /// name of theme
     protected String description=""; /// short description
 
+    public static abstract class EntityBuilderAbstract{
+        protected String fieldName;
+        protected String fieldDescription;
+
+        public EntityBuilderAbstract name(String name){
+            fieldName = name;
+            return this;
+        }
+        public EntityBuilderAbstract description(String description){
+            fieldDescription = description;
+            return this;
+        }
+        public abstract EntityAbstract build();
+    }
+
     protected EntityAbstract() { }
     protected EntityAbstract(String name){
         this.name = name;
@@ -19,8 +34,10 @@ public abstract class EntityAbstract {
         this.name = name;
         this.description = description;
     }
-
-
+    protected EntityAbstract(EntityBuilderAbstract builder){
+        this.name = builder.fieldName;
+        this.description = builder.fieldDescription;
+    }
 
     //getters
     public String getName() {

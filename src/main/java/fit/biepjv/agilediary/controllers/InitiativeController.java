@@ -4,13 +4,27 @@ package fit.biepjv.agilediary.controllers;
 import fit.biepjv.agilediary.models.Epic;
 import fit.biepjv.agilediary.models.Initiative;
 import fit.biepjv.agilediary.models.IssueAbstract;
-import fit.biepjv.agilediary.models.Story;
 
 import java.util.List;
 
 public class InitiativeController extends IssueControllerAbstract {
+
+    public static class InitiativeControllerBuilder extends IssueControllerBuilderAbstract{
+        public InitiativeControllerBuilder(){
+            issueBuilder = new Initiative.InitiativeBuilder();
+        }
+
+        @Override
+        public IssueControllerAbstract build(){
+            return new InitiativeController(this);
+        }
+    }
+
     public InitiativeController(){
         issue = new Initiative();
+    }
+    public InitiativeController(InitiativeControllerBuilder builder){
+        super(builder);
     }
     public List<Epic> getIncludedIssuesList(){
         return (List<Epic>) issue.getSubIssues();

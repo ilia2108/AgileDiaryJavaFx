@@ -8,6 +8,17 @@ import java.util.List;
 public abstract class BaseControllerAbstract {
     protected EntityAbstract entity = null;
 
+    public static abstract class BaseControllerBuilderAbstract{
+        public EntityAbstract.EntityBuilderAbstract entityBuilder;
+
+        public abstract BaseControllerAbstract build();
+    }
+
+    public BaseControllerAbstract(BaseControllerBuilderAbstract builder){
+        entity = builder.entityBuilder.build();
+    }
+    public BaseControllerAbstract(){ }
+
     //getters
     public String getName(){
         return entity.getName();

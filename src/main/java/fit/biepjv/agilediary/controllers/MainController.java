@@ -10,7 +10,9 @@ import javafx.scene.layout.HBox;
 
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /*
@@ -21,9 +23,12 @@ import java.util.Map;
  */
 public class MainController {
 
-    public Map<String, BaseControllerAbstract> controllersList = initControllers();
+    public static Map<String, BaseControllerAbstract> controllersList = initControllers();
 
-    private Map<String, BaseControllerAbstract> initControllers(){
+    public List<ThemeController> ThemeControllers = new ArrayList<>();
+    public List<InitiativeController> InitiativeControllers = new ArrayList<>();
+
+    private static Map<String, BaseControllerAbstract> initControllers(){
         Map<String, BaseControllerAbstract> result = new HashMap<>();
 
         result.put("theme", new ThemeController());
@@ -63,5 +68,4 @@ public class MainController {
     public void click_GoBack(ActionEvent e){
         //todo: implement
     }
-
 }

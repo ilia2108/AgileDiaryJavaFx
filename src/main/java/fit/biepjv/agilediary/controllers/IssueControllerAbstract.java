@@ -9,10 +9,17 @@ import java.util.List;
 public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     protected IssueAbstract issue = null;
 
+    public static abstract class IssueControllerBuilderAbstract extends BaseControllerBuilderAbstract{
+        public IssueAbstract.IssueBuilderAbstract issueBuilder;
+
+        @Override
+        public abstract IssueControllerAbstract build();
+    }
+
     public IssueControllerAbstract(){}
-//    public IssueControllerAbstract(IssueAbstract.IssueBuilderAbstract builder){
-//        issue = builder.build();
-//    }
+    public IssueControllerAbstract(IssueControllerBuilderAbstract builder){
+        super(builder);
+    }
 
     //getters
     public Calendar getDueDate(){

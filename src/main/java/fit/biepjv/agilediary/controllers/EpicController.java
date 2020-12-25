@@ -7,8 +7,22 @@ import fit.biepjv.agilediary.models.Story;
 import java.util.List;
 
 public class EpicController extends IssueControllerAbstract{
+
+    public static class EpicControllerBuilder extends IssueControllerBuilderAbstract{
+        public EpicControllerBuilder(){
+            issueBuilder = new Epic.EpicBuilder();
+        }
+        @Override
+        public IssueControllerAbstract build() {
+            return new EpicController(this);
+        }
+    }
+
     public EpicController(){
         issue = new Epic();
+    }
+    public EpicController(EpicControllerBuilder builder){
+        super(builder);
     }
 
     public List<Story> getIncludedIssuesList(){
