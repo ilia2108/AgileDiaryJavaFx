@@ -27,15 +27,16 @@ public class ThemeController extends BaseControllerAbstract {
         super(builder);
     }
 
-    public List<? extends IssueAbstract> getIncludedIssuesList(){
+    public List<? extends IssueControllerAbstract> getIncludedIssuesList(){
         return new ArrayList<>();
     }
     public void setIncludedIssuesList(List<? extends IssueAbstract> list){ }
-    public void addIssue(IssueAbstract issue){
+    protected void addIssue(IssueAbstract issue){
         entity.setName(issue.getName());
         entity.setDescription(issue.getDescription());
-
-
     }
+
+    @Override
+    public void addIssueController(IssueControllerAbstract issueController) { }
 
 }

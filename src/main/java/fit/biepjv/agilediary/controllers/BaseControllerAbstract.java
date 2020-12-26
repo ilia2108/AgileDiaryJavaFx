@@ -28,7 +28,7 @@ public abstract class BaseControllerAbstract {
         return entity.getDescription();
     }
 
-    public abstract List<? extends IssueAbstract> getIncludedIssuesList();
+    public abstract List<? extends IssueControllerAbstract> getIncludedIssuesList();
 
     //setters
     public void setName(String name){
@@ -40,5 +40,6 @@ public abstract class BaseControllerAbstract {
     }
 
     public abstract void setIncludedIssuesList(List<? extends IssueAbstract> list);
-    public abstract void addIssue(IssueAbstract issue);
+    protected abstract void addIssue(IssueAbstract issue);
+    public abstract void addIssueController(IssueControllerAbstract issueController);
 }

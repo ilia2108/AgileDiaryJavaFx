@@ -2,6 +2,7 @@ package fit.biepjv.agilediary.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
@@ -31,7 +32,7 @@ public class CreateController {
     public TextArea txt_Priority;
 
     @FXML
-    public TextArea txt_Themes;
+    public ComboBox<String> comboBox_ThemesList;
 
     @FXML
     public TextArea txt_DueDate;
