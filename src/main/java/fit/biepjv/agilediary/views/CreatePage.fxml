@@ -55,7 +55,7 @@
                            <HBox>
                               <children>
                                  <Label text="Themes" />
-                                 <TextArea fx:id="txt_Themes" prefHeight="15.0" prefWidth="400.0" />
+                              <ComboBox fx:id="comboBox_ThemesList" prefWidth="400.0" />
                               </children>
                            </HBox>
                            <HBox>
