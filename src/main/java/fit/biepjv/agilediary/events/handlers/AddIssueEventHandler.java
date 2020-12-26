@@ -3,13 +3,20 @@ package fit.biepjv.agilediary.events.handlers;
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.models.EntityAbstract;
+import fit.biepjv.agilediary.models.Initiative;
 import fit.biepjv.agilediary.models.IssueAbstract;
 import fit.biepjv.agilediary.models.Theme;
+import javafx.beans.value.ObservableListValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableListBase;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -49,25 +56,61 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
         stage.setTitle("Add " + type);
         controller.txt_Heading.setText("Add a " + type);
         controller.vBox_IssuesForm.setVisible(!type.equals("theme"));
-        controller.btn_Add.setOnMouseClicked(addItem -> {
+        List<String> themesStringBase = new ArrayList<>();
+        for(ThemeController themeController: themeControllers){
+            themesStringBase.add(themeController.getName());
+        }
+        ObservableList<String> themesStrings = FXCollections.observableArrayList(themesStringBase);
+        controller.comboBox_ThemesList = new ComboBox<String>(themesStrings);
+        controller.comboBox_ThemesList.setValue(
+                themesStrings.size() ==0 ? "There're no themes": themesStrings.get(0)
+                );
 
+        controller.btn_Add.setOnMouseClicked(addItem -> {
+            BaseControllerAbstract.BaseControllerBuilderAbstract builder;
             switch (type){
-                //IssueControllerAbstract issueController = null;
                 case "theme":
-                    ThemeController.ThemeControllerBuilder builder =
-                            new ThemeController.ThemeControllerBuilder();
+                    builder = new ThemeController.ThemeControllerBuilder();
                     builder.entityBuilder
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
                     themeControllers.add((ThemeController)builder.build());
                    break;
                 case "initiative":
+                    builder = new InitiativeController.InitiativeControllerBuilder();
+                    ((InitiativeController.InitiativeControllerBuilder) builder)
+                            .issueBuilder
+                            .priority(1)
+                            .name(controller.txt_Name.getText())
+                            .description(controller.txt_Description.getText());
+
+                    initiativeControllers.add((InitiativeController)builder.build());
                     break;
                 case "epic":
+                    builder = new EpicController.EpicControllerBuilder();
+                    ((EpicController.EpicControllerBuilder) builder)
+                            .issueBuilder
+                            .name(controller.txt_Name.getText())
+                            .description(controller.txt_Description.getText());
+
+                    for(InitiativeController initiative: initiativeControllers){
+                        //todo: find corresponding initiative
+                        initiative.addIssueController((EpicController)builder.build());
+                    }
                     break;
                 case "story":
+                    builder = new StoryController.StoryControllerBuilder();
+                    ((StoryController.StoryControllerBuilder)builder)
+                            .issueBuilder
+                            .name(controller.txt_Name.getText())
+                            .description(controller.txt_Description.getText());
+                    for(InitiativeController initiative: initiativeControllers){
+                        for(EpicController epic: initiative.getIncludedIssuesList()){
+                            //todo: find corresponding epic
+                            epic.addIssueController((StoryController)builder.build());
+                        }
+                    }
                     break;
-
             }
         });
 
