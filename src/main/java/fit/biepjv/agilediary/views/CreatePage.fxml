@@ -16,54 +16,58 @@
                         <Font name="System Bold" size="36.0" />
                      </font>
                   </Label>
-                  <HBox>
-                     <padding>
-                        <Insets right="20" />
-                     </padding>
+                  <GridPane>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
                         <Label text="Name" />
-                        <TextArea fx:id="txt_Name" prefHeight="15.0" prefWidth="400.0" />
+                        <TextArea fx:id="txt_Name" prefHeight="15.0" prefWidth="400.0" GridPane.columnIndex="1" />
+                        <Label text="Description" GridPane.rowIndex="2" />
+                        <TextArea fx:id="txt_Description" prefHeight="50.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                      </children>
-                  </HBox>
-                  <HBox>
-                     <padding>
-                        <Insets right="20" />
-                     </padding>
-                     <children>
-                        <Label text="Description" />
-                        <TextArea fx:id="txt_Description" prefHeight="50.0" prefWidth="400.0" />
-                     </children>
-                  </HBox>
+                  </GridPane>
       
                      <VBox fx:id="vBox_IssuesForm">
                         <padding>
                            <Insets bottom="20" right="20" top="5" />
                         </padding>
                         <children>
-                           <HBox>
-                              <children>
-                                 <Label text="Assignee" />
-                                 <TextArea fx:id="txt_Assignees" prefHeight="15.0" prefWidth="400.0" />
-                              </children>
-                           </HBox>
-                           <HBox>
-                              <children>
-                                 <Label text="Priority" />
-                                 <TextArea fx:id="txt_Priority" prefHeight="15.0" prefWidth="400.0" />
-                              </children>
-                           </HBox>
-                           <HBox>
-                              <children>
-                                 <Label text="Themes" />
-                              <ComboBox fx:id="comboBox_ThemesList" prefWidth="400.0" />
-                              </children>
-                           </HBox>
-                           <HBox>
-                              <children>
-                                 <Label text="Due date" />
-                                 <TextArea fx:id="txt_DueDate" prefHeight="15.0" prefWidth="400.0" />
-                              </children>
-                           </HBox>
+                        <GridPane>
+                           <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                           </columnConstraints>
+                           <rowConstraints>
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                           </rowConstraints>
+                           <children>
+                              <Label text="Assignee" />
+                              <TextArea fx:id="txt_Assignees" prefHeight="15.0" prefWidth="400.0" GridPane.columnIndex="1" />
+                              <Label text="Priority (1-10)" GridPane.rowIndex="2" />
+                              <TextArea fx:id="txt_Priority" prefHeight="15.0" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Label text="Themes" GridPane.rowIndex="4" />
+                              <ComboBox fx:id="comboBox_ThemesList" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                              <Label text="Due date" GridPane.rowIndex="6" />
+                              <DatePicker fx:id="datePicker_DueDate" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+                              <Label fx:id="txt_RelatedIssue" text="Related &lt;issue&gt;" GridPane.rowIndex="8"/>
+                              <ComboBox fx:id="comboBox_RelatedIssue" prefWidth="400.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+                           </children>
+                        </GridPane>
                         </children>
                      </VBox>
                   <Button fx:id="btn_Add" mnemonicParsing="false" text="Add" />
