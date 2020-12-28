@@ -22,6 +22,8 @@ import javafx.stage.Stage;
 
 import javax.management.relation.RelationNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.time.LocalDate;
 import java.util.List;
 
 public abstract class AddIssueEventHandler implements EventHandler<Event> {
@@ -65,9 +67,47 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
         controller.comboBox_ThemesList.setValue(
                 themesStrings.size() ==0 ? "There're no themes": themesStrings.get(0)
                 );
+        String relatedIssueText = "Related ";
+        switch (type){
+            case "epic":
+                relatedIssueText += "Initiative";
+                List<String> initiativesListBase = new ArrayList<>();
+                for(InitiativeController initiativeController: initiativeControllers){
+                    initiativesListBase.add(initiativeController.getName());
+                }
+                ObservableList<String> initiativesStrings =
+                        FXCollections.observableArrayList(initiativesListBase);
+                controller.comboBox_RelatedIssue = new ComboBox<>(initiativesStrings);
+                controller.comboBox_RelatedIssue.setValue(
+                        initiativesStrings.size() ==0 ? "There're no initiatives": themesStrings.get(0)
+                );
+                break;
+            case "story":
+                relatedIssueText += "Epic";
+                List<String> epicsListBase = new ArrayList<>();
+                for(InitiativeController initiativeController: initiativeControllers){
+                    for(EpicController epicController: initiativeController.getIncludedIssuesList()){
+                        epicsListBase.add(epicController.getName());
+                    }
+                }
+                ObservableList<String> epicsStrings =
+                        FXCollections.observableArrayList(epicsListBase);
+                controller.comboBox_RelatedIssue = new ComboBox<>(epicsStrings);
+                controller.comboBox_RelatedIssue.setValue(
+                        epicsStrings.size() ==0 ? "There're no epics": themesStrings.get(0)
+                );
+                break;
+            default:
+                controller.txt_RelatedIssue.setVisible(false);
+                controller.comboBox_RelatedIssue.setVisible(false);
+                break;
+        }
+        controller.txt_RelatedIssue.setText(relatedIssueText);
 
         controller.btn_Add.setOnMouseClicked(addItem -> {
             BaseControllerAbstract.BaseControllerBuilderAbstract builder;
+            Calendar calendar = Calendar.getInstance();
+            LocalDate dueDate = controller.datePicker_DueDate.getValue();
             switch (type){
                 case "theme":
                     builder = new ThemeController.ThemeControllerBuilder();
@@ -78,9 +118,11 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                    break;
                 case "initiative":
                     builder = new InitiativeController.InitiativeControllerBuilder();
+                    calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
                     ((InitiativeController.InitiativeControllerBuilder) builder)
                             .issueBuilder
                             .priority(1)
+                            .dueDate(calendar)
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
 
@@ -88,8 +130,10 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                     break;
                 case "epic":
                     builder = new EpicController.EpicControllerBuilder();
+                    calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
                     ((EpicController.EpicControllerBuilder) builder)
                             .issueBuilder
+                            .dueDate(calendar)
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
 
@@ -100,8 +144,10 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                     break;
                 case "story":
                     builder = new StoryController.StoryControllerBuilder();
+                    calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
                     ((StoryController.StoryControllerBuilder)builder)
                             .issueBuilder
+                            .dueDate(calendar)
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
                     for(InitiativeController initiative: initiativeControllers){
@@ -112,6 +158,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                     }
                     break;
             }
+
         });
 
         stage.setScene(scene);
