@@ -1,44 +1,34 @@
 package fit.biepjv.agilediary.events.handlers;
 
-import fit.biepjv.agilediary.Main;
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.Loader;
 import fit.biepjv.agilediary.controllers.*;
-import fit.biepjv.agilediary.models.EntityAbstract;
-import fit.biepjv.agilediary.models.Initiative;
-import fit.biepjv.agilediary.models.IssueAbstract;
-import fit.biepjv.agilediary.models.Theme;
-import javafx.beans.value.ObservableListValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableListBase;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.management.relation.RelationNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class AddIssueEventHandler implements EventHandler<Event> {
     String type;
     Stage stage;
-    List<ThemeController> themeControllers = new ArrayList<>();
-    List<InitiativeController> initiativeControllers = new ArrayList<>();
+    MainController mainController;
     public AddIssueEventHandler(String type,
                                 Stage stage,
-                                List<ThemeController> themeControllers,
-                                List<InitiativeController> initiativeControllers){
+                               MainController controller){
         this.type = type;
         this.stage = stage;
-        this.themeControllers = themeControllers;
-        this.initiativeControllers = initiativeControllers;
+        this.mainController = controller;
     }
     public String getType(){
         return type;
@@ -53,13 +43,12 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
         }
         catch (Exception ignored){ }
         CreateController controller = loader.getController();
-        assert root != null;
         Scene scene = new Scene(root, 600,400);
         stage.setTitle("Add " + type);
         controller.txt_Heading.setText("Add a " + type);
         controller.vBox_IssuesForm.setVisible(!type.equals("theme"));
         List<String> themesStringBase = new ArrayList<>();
-        for(ThemeController themeController: themeControllers){
+        for(ThemeController themeController: mainController.themeControllers){
             themesStringBase.add(themeController.getName());
         }
         ObservableList<String> themesStrings = FXCollections.observableArrayList(themesStringBase);
@@ -72,7 +61,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
             case "epic":
                 relatedIssueText += "Initiative";
                 List<String> initiativesListBase = new ArrayList<>();
-                for(InitiativeController initiativeController: initiativeControllers){
+                for(InitiativeController initiativeController: mainController.initiativeControllers){
                     initiativesListBase.add(initiativeController.getName());
                 }
                 ObservableList<String> initiativesStrings =
@@ -85,7 +74,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
             case "story":
                 relatedIssueText += "Epic";
                 List<String> epicsListBase = new ArrayList<>();
-                for(InitiativeController initiativeController: initiativeControllers){
+                for(InitiativeController initiativeController: mainController.initiativeControllers){
                     for(EpicController epicController: initiativeController.getIncludedIssuesList()){
                         epicsListBase.add(epicController.getName());
                     }
@@ -114,7 +103,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                     builder.entityBuilder
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
-                    themeControllers.add((ThemeController)builder.build());
+                    mainController.themeControllers.add((ThemeController)builder.build());
                    break;
                 case "initiative":
                     builder = new InitiativeController.InitiativeControllerBuilder();
@@ -126,7 +115,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
 
-                    initiativeControllers.add((InitiativeController)builder.build());
+                    mainController.initiativeControllers.add((InitiativeController)builder.build());
                     break;
                 case "epic":
                     builder = new EpicController.EpicControllerBuilder();
@@ -137,7 +126,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
 
-                    for(InitiativeController initiative: initiativeControllers){
+                    for(InitiativeController initiative: mainController.initiativeControllers){
                         //todo: find corresponding initiative
                         initiative.addIssueController((EpicController)builder.build());
                     }
@@ -150,7 +139,7 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                             .dueDate(calendar)
                             .name(controller.txt_Name.getText())
                             .description(controller.txt_Description.getText());
-                    for(InitiativeController initiative: initiativeControllers){
+                    for(InitiativeController initiative: mainController.initiativeControllers){
                         for(EpicController epic: initiative.getIncludedIssuesList()){
                             //todo: find corresponding epic
                             epic.addIssueController((StoryController)builder.build());
@@ -158,7 +147,16 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
                     }
                     break;
             }
-
+            FXMLLoader oldloader = new FXMLLoader(getClass().getResource("views/MainPage.fxml"));
+            oldloader.setController(mainController);
+            Parent oldRoot = null;
+            try {
+                oldRoot = oldloader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Scene oldScene = new Scene(oldRoot, 600,400);
+            stage.setScene(oldScene);
         });
 
         stage.setScene(scene);

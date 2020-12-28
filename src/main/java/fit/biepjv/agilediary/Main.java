@@ -1,18 +1,13 @@
 package fit.biepjv.agilediary;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.events.handlers.AddIssueEventHandler;
-import fit.biepjv.agilediary.models.*;
 
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.sql.Struct;
-import java.util.List;
 
 
 public class Main extends javafx.application.Application {
@@ -27,19 +22,12 @@ public class Main extends javafx.application.Application {
 
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("views/MainPage.fxml"));
+        loader.setController(new MainController());
         Parent root = loader.load();
+
         mainController = loader.getController();
+
         stage.setTitle("Agile Diary");
-        boolean noElems =
-                MainController.controllersList
-                        .get("initiative")
-                        .getIncludedIssuesList()
-                        .size() == 0;
-        mainController.grid_Issues.setVisible(!noElems);
-        mainController.grid_themes.setVisible(!noElems);
-        mainController.grid_NavigationButtons.setVisible(!noElems);
-        mainController.grid_noContent.setVisible(noElems);
-        mainController.btn_Back.setVisible(false);
 
         Scene scene = new Scene(root, 600,400);
         stage.setScene(scene);
@@ -47,38 +35,12 @@ public class Main extends javafx.application.Application {
 
 
         mainController.btn_AddDefault.setOnMouseClicked(new AddIssueEventHandler(
-                "theme", stage, mainController.ThemeControllers, mainController.InitiativeControllers) {
+                "theme", stage, mainController) {
             @Override
             public void handle(Event event) {
                 super.handle(event);
             }
         });
-
-
-
-        //test
-//
-//        Theme theme = new Theme.ThemeBuilder()
-//                .name("Theme1")
-//                .description("")
-//                .build();
-//        Epic epic= (Epic) new Epic.EpicBuilder()
-//                .name("Epic1")
-//                .description("epic1 epic1 e pic 1")
-//                .addTheme(theme)
-//                .priority(2)
-//                .addAssignee("User1")
-//                .addAssignee("User2")
-//                .build();
-//        Initiative initiative = ((Initiative.InitiativeBuilder)new Initiative.InitiativeBuilder()
-//                .name("Ini1")
-//                .description("description of ini1")
-//                .addAssignee("User1")
-//                .addTheme(theme))
-//                .addEpic(epic)
-//                .build();
-//        ((IssueControllerAbstract)controller).setBaseIssue(initiative);
-//        controller.addIssue(epic);
     }
 
 
