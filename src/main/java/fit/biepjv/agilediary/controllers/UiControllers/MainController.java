@@ -1,14 +1,16 @@
-package fit.biepjv.agilediary.controllers;
+package fit.biepjv.agilediary.controllers.UiControllers;
 
-import javafx.event.ActionEvent;
+import fit.biepjv.agilediary.controllers.*;
+import fit.biepjv.agilediary.events.handlers.AddIssueEventHandler;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 import java.util.ArrayList;
@@ -22,12 +24,17 @@ import java.util.Map;
 
     This is a basic controller class. It contains all other controllers and supports displaying of View.
  */
-public class MainController {
+public class MainController extends BaseUiControllerAbstract{
 
     public static Map<String, BaseControllerAbstract> controllersList = initControllers();
 
     public List<ThemeController> themeControllers = new ArrayList<>();
     public List<InitiativeController> initiativeControllers = new ArrayList<>();
+    //Stage stage = new Stage();
+
+    public MainController(Stage stage){
+        super(stage);
+    }
 
     private static Map<String, BaseControllerAbstract> initControllers(){
         Map<String, BaseControllerAbstract> result = new HashMap<>();
@@ -41,16 +48,23 @@ public class MainController {
     }
 
     @FXML
-    public Button btn_Add;
-    @FXML
     public Button btn_AddTheme;
+
+    @FXML
+    public Button btn_AddInitiative;
+
+    @FXML
+    public Button btn_AddEpic;
+
+    @FXML
+    public Button btn_AddStory;
 
     @FXML
     public GridPane grid_noContent;
     @FXML
     public GridPane grid_Issues;
     @FXML
-    public GridPane grid_NavigationButtons;
+    public GridPane grid_AddButtons;
     @FXML
     public GridPane grid_themes;
     @FXML
@@ -62,20 +76,17 @@ public class MainController {
     @FXML
     public Button btn_Back;
     @FXML
-    public HBox hBox_Themes;
-
-    @FXML
-    public void click_GoBack(ActionEvent e){
-        //todo: implement
-    }
+    public VBox vBox_Themes;
 
     @FXML
     public void initialize(){
+
         boolean noThemes = themeControllers.size() == 0;
         boolean noInitiatives = initiativeControllers.size() == 0;
         grid_Issues.setVisible(!noInitiatives);
         grid_themes.setVisible(!noThemes);
-        grid_noContent.setVisible(noInitiatives && noThemes);
+        grid_AddButtons.setVisible(!noThemes);
+        grid_noContent.setVisible(noThemes);
 
         for(InitiativeController initiativeController: initiativeControllers){
             TitledPane epicPane = null;
@@ -91,8 +102,39 @@ public class MainController {
         }
 
         for (ThemeController themeController: themeControllers){
-            hBox_Themes.getChildren().add(new Label(themeController.getName()));
+            vBox_Themes.getChildren().add(new Label(themeController.getName()));
         }
+
+        AddIssueEventHandler themeAdd =
+                new AddIssueEventHandler("theme", stage, this) {
+                    @Override
+                    public void handle(Event event) {
+                        super.handle(event);
+                    }
+                };
+
+        btn_AddTheme.setOnMouseClicked(themeAdd);
+        btn_AddInitiative.setOnMouseClicked(new AddIssueEventHandler(
+                "initiative", stage, this) {
+            @Override
+            public void handle(Event event) {
+                super.handle(event);
+            }
+        });
+        btn_AddEpic.setOnMouseClicked(new AddIssueEventHandler(
+                "epic", stage, this) {
+            @Override
+            public void handle(Event event) {
+                super.handle(event);
+            }
+        });
+        btn_AddStory.setOnMouseClicked(new AddIssueEventHandler(
+                "story", stage, this) {
+            @Override
+            public void handle(Event event) {
+                super.handle(event);
+            }
+        });
 
     }
 }
