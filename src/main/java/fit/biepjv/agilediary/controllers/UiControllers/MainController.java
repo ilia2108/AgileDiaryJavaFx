@@ -137,4 +137,12 @@ public class MainController extends BaseUiControllerAbstract{
         });
 
     }
+
+    public ThemeController findThemeControllerByName(String name){
+        for(ThemeController controller: themeControllers){
+            if(controller.getName().equals(name))
+                return controller;
+        }
+        return null;
+    }
 }

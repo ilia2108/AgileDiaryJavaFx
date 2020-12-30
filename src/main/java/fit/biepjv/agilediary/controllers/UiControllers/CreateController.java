@@ -2,8 +2,6 @@ package fit.biepjv.agilediary.controllers.UiControllers;
 
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -12,12 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import javax.xml.soap.Text;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class CreateController extends BaseUiControllerAbstract{
     @FXML
@@ -67,43 +62,38 @@ public class CreateController extends BaseUiControllerAbstract{
         stage.setTitle("Add " + type);
         txt_Heading.setText("Add a " + type);
         vBox_IssuesForm.setVisible(!type.equals("theme"));
-        List<String> themesStringBase = new ArrayList<>();
         for(ThemeController themeController: mainController.themeControllers){
-            themesStringBase.add(themeController.getName());
+            comboBox_ThemesList.getItems().add(themeController.getName());
         }
-        ObservableList<String> themesStrings = FXCollections.observableArrayList(themesStringBase);
-        comboBox_ThemesList = new ComboBox<String>(themesStrings);
         comboBox_ThemesList.setValue(
-                themesStrings.size() ==0 ? "There're no themes": themesStrings.get(0)
+                comboBox_ThemesList.getItems().size() ==0 ?
+                        "There're no themes":
+                        comboBox_ThemesList.getItems().get(0)
         );
         String relatedIssueText = "Related ";
         switch (type){
             case "epic":
                 relatedIssueText += "Initiative";
-                List<String> initiativesListBase = new ArrayList<>();
                 for(InitiativeController initiativeController: mainController.initiativeControllers){
-                    initiativesListBase.add(initiativeController.getName());
+                    comboBox_RelatedIssue.getItems().add(initiativeController.getName());
                 }
-                ObservableList<String> initiativesStrings =
-                        FXCollections.observableArrayList(initiativesListBase);
-                comboBox_RelatedIssue = new ComboBox<>(initiativesStrings);
                 comboBox_RelatedIssue.setValue(
-                        initiativesStrings.size() ==0 ? "There're no initiatives": themesStrings.get(0)
+                        comboBox_RelatedIssue.getItems().size() ==0 ?
+                                "There're no initiatives":
+                                comboBox_RelatedIssue.getItems().get(0)
                 );
                 break;
             case "story":
                 relatedIssueText += "Epic";
-                List<String> epicsListBase = new ArrayList<>();
                 for(InitiativeController initiativeController: mainController.initiativeControllers){
                     for(EpicController epicController: initiativeController.getIncludedIssuesList()){
-                        epicsListBase.add(epicController.getName());
+                        comboBox_RelatedIssue.getItems().add(epicController.getName());
                     }
                 }
-                ObservableList<String> epicsStrings =
-                        FXCollections.observableArrayList(epicsListBase);
-                comboBox_RelatedIssue = new ComboBox<>(epicsStrings);
                 comboBox_RelatedIssue.setValue(
-                        epicsStrings.size() ==0 ? "There're no epics": themesStrings.get(0)
+                        comboBox_RelatedIssue.getItems().size() ==0 ?
+                                "There're no epics":
+                                comboBox_RelatedIssue.getItems().get(0)
                 );
                 break;
             default:
@@ -129,6 +119,9 @@ public class CreateController extends BaseUiControllerAbstract{
                     builder = new InitiativeController.InitiativeControllerBuilder();
                     calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
                     ((InitiativeController.InitiativeControllerBuilder) builder)
+                            .addThemeController(
+                                    mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
+                            )
                             .issueBuilder
                             .priority(1)
                             .dueDate(calendar)
@@ -141,6 +134,9 @@ public class CreateController extends BaseUiControllerAbstract{
                     builder = new EpicController.EpicControllerBuilder();
                     calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
                     ((EpicController.EpicControllerBuilder) builder)
+                            .addThemeController(
+                                    mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
+                            )
                             .issueBuilder
                             .dueDate(calendar)
                             .name(txt_Name.getText())
@@ -154,7 +150,10 @@ public class CreateController extends BaseUiControllerAbstract{
                 case "story":
                     builder = new StoryController.StoryControllerBuilder();
                     calendar.set(dueDate.getYear(), dueDate.getMonthValue()-1, dueDate.getDayOfMonth());
-                    ((StoryController.StoryControllerBuilder)builder)
+                    ((StoryController.StoryControllerBuilder) builder)
+                            .addThemeController(
+                                    mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
+                            )
                             .issueBuilder
                             .dueDate(calendar)
                             .name(txt_Name.getText())

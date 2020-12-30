@@ -43,12 +43,11 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
 
     public void handle(Event event){
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/CreatePage.fxml"));
-        //FXMLLoader loader = new FXMLLoader(getClass().getResource("CreatePage.fxml"));
         Parent root = null;
         CreateController controller = new CreateController(stage, type, mainController);
         loader.setController(controller);
         try {
-            root = (Parent) loader.load();
+            root = loader.load();
         }
         catch (Exception ignored){
         }

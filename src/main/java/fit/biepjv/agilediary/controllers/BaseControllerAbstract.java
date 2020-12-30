@@ -6,7 +6,7 @@ import fit.biepjv.agilediary.models.IssueAbstract;
 import java.util.List;
 
 public abstract class BaseControllerAbstract {
-    protected EntityAbstract entity = null;
+    protected EntityAbstract entity;
 
     public static abstract class BaseControllerBuilderAbstract{
         public EntityAbstract.EntityBuilderAbstract entityBuilder;

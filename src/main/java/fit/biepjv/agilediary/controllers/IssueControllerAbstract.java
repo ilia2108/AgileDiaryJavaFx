@@ -14,11 +14,16 @@ public abstract class IssueControllerAbstract extends BaseControllerAbstract {
 
         @Override
         public abstract IssueControllerAbstract build();
+
+        public IssueControllerBuilderAbstract addThemeController(ThemeController themeController){
+            issueBuilder.addTheme((Theme) themeController.entity);
+            return this;
+        }
     }
 
     public IssueControllerAbstract(){}
     public IssueControllerAbstract(IssueControllerBuilderAbstract builder){
-        super(builder);
+       issue = (IssueAbstract) builder.issueBuilder.build();
     }
 
     //getters
@@ -68,8 +73,8 @@ public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     public void setThemes(List<Theme> themes){
         issue.setThemes(themes);
     }
-    public void addTheme(Theme theme){
-        issue.addTheme(theme);
+    public void addTheme(ThemeController themeController){
+        issue.addTheme((Theme) themeController.entity);
     }
     public void setBaseIssue(IssueAbstract baseIssue){
         issue = baseIssue;
