@@ -3,6 +3,7 @@ package fit.biepjv.agilediary;
 import fit.biepjv.agilediary.controllers.UiControllers.MainController;
 import fit.biepjv.agilediary.events.handlers.AddIssueEventHandler;
 
+import fit.biepjv.agilediary.jdbc.DatabaseConnector;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -13,11 +14,12 @@ import javafx.stage.Stage;
 public class Main extends javafx.application.Application {
 
     MainController mainController;
+    DatabaseConnector dbConnector;
 
     @Override
     public void start(Stage stage) throws Exception{
-
-        mainController = new MainController(stage);
+        dbConnector = new DatabaseConnector();
+        mainController = new MainController(stage, dbConnector);
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/MainPage.fxml"));
         loader.setController(mainController);
         Parent root = loader.load();

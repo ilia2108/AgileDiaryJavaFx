@@ -23,6 +23,9 @@ public class ThemeController extends BaseControllerAbstract {
     public ThemeController(){
         entity = new Theme();
     }
+    public ThemeController(Theme theme) {
+        entity = theme;
+    }
     public ThemeController(ThemeControllerBuilder builder){
         super(builder);
     }

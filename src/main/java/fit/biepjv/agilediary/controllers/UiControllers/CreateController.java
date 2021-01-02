@@ -2,6 +2,8 @@ package fit.biepjv.agilediary.controllers.UiControllers;
 
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
+import fit.biepjv.agilediary.jdbc.DatabaseConnector;
+import fit.biepjv.agilediary.models.Theme;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Calendar;
 
@@ -51,8 +54,8 @@ public class CreateController extends BaseUiControllerAbstract{
     String type;
     MainController mainController;
 
-    public CreateController(Stage stage, String type, MainController mainController){
-        super(stage);
+    public CreateController(Stage stage, DatabaseConnector connector, String type, MainController mainController){
+        super(stage, connector);
         this.type = type;
         this.mainController = mainController;
     }
@@ -113,7 +116,13 @@ public class CreateController extends BaseUiControllerAbstract{
                     builder.entityBuilder
                             .name(txt_Name.getText())
                             .description(txt_Description.getText());
-                    mainController.themeControllers.add((ThemeController)builder.build());
+                    //mainController.themeControllers.add((ThemeController)builder.build());
+                    try {
+                        if(!dbConnector.getThemeDAO().themeExists(txt_Name.getText()))
+                            dbConnector.getThemeDAO().addTheme((Theme) builder.entityBuilder.build());
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                     break;
                 case "initiative":
                     builder = new InitiativeController.InitiativeControllerBuilder();

@@ -4,22 +4,9 @@ import fit.biepjv.agilediary.models.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class ThemeDAO extends BasicDAO {
-
-    public ThemeDAO(){
-        createTable();
-    }
-
-    @Override
-    public void createTable() {
-        String sqlQuery = "create table if not exists themes (" +
-                "id int primary key," +
-                "theme_name varchar(50)," +
-                "theme_des varchar (200))";
-
-        executeQuery(sqlQuery);
-    }
 
     private Theme createTheme(ResultSet rs){
         Theme theme = new Theme();
@@ -31,30 +18,93 @@ public class ThemeDAO extends BasicDAO {
         return theme;
     }
 
-    public List<Theme> getThemes(){
-        String sqlQuery = "Select * from themes";
+    public boolean themeExists(String themeName) throws SQLException{
+        Connection connection = null;
+        PreparedStatement statement = null;
         List<Theme> themes = new ArrayList<>();
-        try {
-            Class.forName(DRIVER);
-            Connection con = DriverManager.getConnection
-                    (DB_URL, USER, PASS);
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sqlQuery);
-            while (rs.next()) {
-                Theme theme = createTheme(rs);
-                themes.add(theme);
+
+        try{
+            connection = getDBConnection();
+            connection.setAutoCommit(false);
+            String query = "Select * from themes where theme_name = ?";
+            statement = connection.prepareStatement(query);
+            int counter = 1;
+            statement.setString(counter++, themeName);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                themes.add(createTheme(rs));
             }
-            rs.close();
-            con.close();
+
+            return !themes.isEmpty();
+
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
         }
-        catch (ClassNotFoundException | SQLException ex){ }
+        finally {
+            if(connection != null)
+                connection.close();
+            if(statement != null)
+                statement.close();
+        }
+
+        return false;
+    }
+
+    public List<Theme> getThemes() throws SQLException{
+        Connection connection = null;
+        PreparedStatement statement = null;
+        List<Theme> themes = new ArrayList<>();
+
+        try{
+            connection = getDBConnection();
+            connection.setAutoCommit(false);
+            String query = "Select * from themes ";
+            statement = connection.prepareStatement(query);
+            ResultSet rs = statement.executeQuery();
+
+            while (rs.next()){
+                themes.add(createTheme(rs));
+            }
+
+        } catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        finally {
+            if(connection != null)
+                connection.close();
+            if(statement != null)
+                statement.close();
+        }
+
         return themes;
     }
 
-    public void createTheme(Theme theme){
-        String sqlQuery = "insert into themes (theme_name,theme_des) " +
-                "values (" + theme.getName() + "," + theme.getDescription() + ")";
 
-        executeQuery(sqlQuery);
+    public void addTheme(Theme theme) throws SQLException{
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try{
+            connection = getDBConnection();
+            String query = "insert into themes (theme_name, theme_des) values (?, ?)";
+            statement = connection.prepareStatement(query);
+            int counter = 1;
+
+            statement.setString(counter++, theme.getName());
+            statement.setString(counter, theme.getDescription());
+
+            statement.executeUpdate();
+
+        }
+        catch (SQLException e){
+            logger.log(Level.SEVERE, e.getMessage());
+        }
+        finally {
+            if(connection != null)
+                connection.close();
+            if(statement != null)
+                statement.close();
+        }
     }
 }

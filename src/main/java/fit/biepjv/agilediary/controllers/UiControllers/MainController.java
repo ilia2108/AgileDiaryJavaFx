@@ -2,8 +2,11 @@ package fit.biepjv.agilediary.controllers.UiControllers;
 
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.events.handlers.AddIssueEventHandler;
+import fit.biepjv.agilediary.jdbc.DatabaseConnector;
+import fit.biepjv.agilediary.models.Theme;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -13,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,15 +29,19 @@ import java.util.Map;
     This is a basic controller class. It contains all other controllers and supports displaying of View.
  */
 public class MainController extends BaseUiControllerAbstract{
-
     public static Map<String, BaseControllerAbstract> controllersList = initControllers();
 
     public List<ThemeController> themeControllers = new ArrayList<>();
     public List<InitiativeController> initiativeControllers = new ArrayList<>();
+
     //Stage stage = new Stage();
 
-    public MainController(Stage stage){
-        super(stage);
+    public MainController(Stage stage, DatabaseConnector connector){
+        super(stage, connector);
+    }
+
+    public DatabaseConnector getDbConnector(){
+        return dbConnector;
     }
 
     private static Map<String, BaseControllerAbstract> initControllers(){
@@ -78,8 +86,17 @@ public class MainController extends BaseUiControllerAbstract{
     @FXML
     public VBox vBox_Themes;
 
+
+
     @FXML
     public void initialize(){
+
+        try {
+            themeControllers = dbConnector.getThemeControllers();
+        }
+        catch (SQLException ignored){
+
+        }
 
         boolean noThemes = themeControllers.size() == 0;
         boolean noInitiatives = initiativeControllers.size() == 0;

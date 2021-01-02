@@ -44,7 +44,8 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
     public void handle(Event event){
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/CreatePage.fxml"));
         Parent root = null;
-        CreateController controller = new CreateController(stage, type, mainController);
+        CreateController controller =
+                new CreateController(stage, mainController.getDbConnector(), type, mainController);
         loader.setController(controller);
         try {
             root = loader.load();
