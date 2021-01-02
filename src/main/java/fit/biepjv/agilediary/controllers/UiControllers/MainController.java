@@ -90,14 +90,16 @@ public class MainController extends BaseUiControllerAbstract{
 
         for(InitiativeController initiativeController: initiativeControllers){
             TitledPane epicPane = null;
+            VBox vbox_epics = new VBox(8);
             for(EpicController epicController: initiativeController.getIncludedIssuesList()){
-                VBox vbox_stories = new VBox(15);
+                VBox vbox_stories = new VBox(8);
                 for(StoryController story: epicController.getIncludedIssuesList()){
                     vbox_stories.getChildren().add(new Label(story.getName()));
                 }
                 epicPane = new TitledPane(epicController.getName(), vbox_stories);
+                vbox_epics.getChildren().add(epicPane);
             }
-            TitledPane initiativePane = new TitledPane(initiativeController.getName(), epicPane);
+            TitledPane initiativePane = new TitledPane(initiativeController.getName(), vbox_epics);
             accordion_Items.getPanes().add(initiativePane);
         }
 
