@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7
+      volumes:
+        - db_data:/var/lib/mysql
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: somesecret
+        MYSQL_DATABASE: agileDiary
+        MYSQL_USER: root
+        MYSQL_PASSWORD: secret
+
+  # todo: fix Dockerfile
+#  javafx:
+#    build:
+#      context: src
+#      dockerfile: Dockerfile
+#    depends_on:
+#      - db
+
+volumes:
+  db_data: {}
