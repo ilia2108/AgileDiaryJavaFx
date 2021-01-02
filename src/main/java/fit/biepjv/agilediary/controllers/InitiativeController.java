@@ -45,6 +45,6 @@ public class InitiativeController extends IssueControllerAbstract {
     @Override
     public void addIssueController(IssueControllerAbstract issueController) {
         if(issueController instanceof EpicController)
-            issueController.addIssue(issueController.issue);
+            addIssue(issueController.issue);
     }
 }
