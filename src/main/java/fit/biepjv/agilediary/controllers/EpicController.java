@@ -48,6 +48,6 @@ public class EpicController extends IssueControllerAbstract{
     @Override
     public void addIssueController(IssueControllerAbstract issueController) {
         if(issueController instanceof StoryController)
-            issue.addIssue(issueController.issue);
+            addIssue(issueController.issue);
     }
 }

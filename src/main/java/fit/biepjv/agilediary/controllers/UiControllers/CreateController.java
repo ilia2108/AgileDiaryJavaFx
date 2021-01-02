@@ -143,8 +143,8 @@ public class CreateController extends BaseUiControllerAbstract{
                             .description(txt_Description.getText());
 
                     for(InitiativeController initiative: mainController.initiativeControllers){
-                        //todo: find corresponding initiative
-                        initiative.addIssueController((EpicController)builder.build());
+                        if(initiative.getName().equals(comboBox_RelatedIssue.getValue()))
+                            initiative.addIssueController((EpicController)builder.build());
                     }
                     break;
                 case "story":
@@ -160,8 +160,8 @@ public class CreateController extends BaseUiControllerAbstract{
                             .description(txt_Description.getText());
                     for(InitiativeController initiative: mainController.initiativeControllers){
                         for(EpicController epic: initiative.getIncludedIssuesList()){
-                            //todo: find corresponding epic
-                            epic.addIssueController((StoryController)builder.build());
+                            if(epic.getName().equals(comboBox_RelatedIssue.getValue()))
+                                epic.addIssueController((StoryController)builder.build());
                         }
                     }
                     break;
