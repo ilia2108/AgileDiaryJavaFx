@@ -27,6 +27,11 @@ public class InitiativeController extends IssueControllerAbstract {
     public InitiativeController(InitiativeControllerBuilder builder){
         super(builder);
     }
+    public InitiativeController(Initiative initiative){
+        super(initiative);
+    }
+
+
     public List<EpicController> getIncludedIssuesList(){
         List<EpicController> result = new ArrayList<>();
         for(Epic epic: (List<Epic>)issue.getSubIssues()){

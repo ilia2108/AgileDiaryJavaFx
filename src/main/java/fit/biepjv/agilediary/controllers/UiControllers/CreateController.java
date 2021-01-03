@@ -3,6 +3,7 @@ package fit.biepjv.agilediary.controllers.UiControllers;
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.jdbc.DatabaseConnector;
+import fit.biepjv.agilediary.models.Initiative;
 import fit.biepjv.agilediary.models.Theme;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,11 +134,25 @@ public class CreateController extends BaseUiControllerAbstract{
                             )
                             .issueBuilder
                             .priority(1)
-                            .dueDate(calendar)
+                            //.dueDate(calendar)
+                            .dueDateString(dueDate.getYear(), dueDate.getMonthValue(), dueDate.getDayOfMonth())
+                            .addAssignee(txt_Assignees.getText())
                             .name(txt_Name.getText())
                             .description(txt_Description.getText());
 
                     mainController.initiativeControllers.add((InitiativeController)builder.build());
+                    try {
+                        if(!dbConnector.getInitiativeDAO().initiativeExists(txt_Name.getText()))
+                        {
+                            dbConnector.getInitiativeDAO().addInitiative(
+                                    (Initiative) (((InitiativeController.InitiativeControllerBuilder) builder)
+                                            .issueBuilder.
+                                            build())
+                            );
+                        }
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
                     break;
                 case "epic":
                     builder = new EpicController.EpicControllerBuilder();

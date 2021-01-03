@@ -25,6 +25,9 @@ public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     public IssueControllerAbstract(IssueControllerBuilderAbstract builder){
        issue = (IssueAbstract) builder.issueBuilder.build();
     }
+    public IssueControllerAbstract(IssueAbstract issue){
+        this.issue = issue;
+    }
 
     //getters
     public Calendar getDueDate(){
