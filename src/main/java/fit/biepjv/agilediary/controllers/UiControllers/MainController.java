@@ -82,8 +82,6 @@ public class MainController extends BaseUiControllerAbstract{
     @FXML
     public Button btn_AddDefault;
     @FXML
-    public Button btn_Back;
-    @FXML
     public VBox vBox_Themes;
 
 

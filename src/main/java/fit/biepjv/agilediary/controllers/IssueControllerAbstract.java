@@ -82,4 +82,11 @@ public abstract class IssueControllerAbstract extends BaseControllerAbstract {
     public void setBaseIssue(IssueAbstract baseIssue){
         issue = baseIssue;
     }
+    public String getCalendarString(){
+        return issue.getCalendarString();
+    }
+
+    public IssueAbstract getIssue(){
+        return issue;
+    }
 }
