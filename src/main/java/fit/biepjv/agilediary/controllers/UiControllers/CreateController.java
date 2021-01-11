@@ -1,5 +1,6 @@
 package fit.biepjv.agilediary.controllers.UiControllers;
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.jdbc.DatabaseConnector;
@@ -119,8 +120,8 @@ public class CreateController extends BaseUiControllerAbstract{
                             .description(txt_Description.getText());
                     //mainController.themeControllers.add((ThemeController)builder.build());
                     try {
-                        if(!dbConnector.getThemeDAO().themeExists(txt_Name.getText()))
-                            dbConnector.getThemeDAO().addTheme((Theme) builder.entityBuilder.build());
+                        if(!dbConnector.themeExists(txt_Name.getText()))
+                            dbConnector.addTheme((Theme) builder.entityBuilder.build());
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
@@ -133,7 +134,7 @@ public class CreateController extends BaseUiControllerAbstract{
                                     mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
                             )
                             .issueBuilder
-                            .priority(1)
+                            .priority(Integer.parseInt(txt_Priority.getText()))
                             //.dueDate(calendar)
                             .dueDateString(dueDate.getYear(), dueDate.getMonthValue(), dueDate.getDayOfMonth())
                             .addAssignee(txt_Assignees.getText())
@@ -142,12 +143,11 @@ public class CreateController extends BaseUiControllerAbstract{
 
                     mainController.initiativeControllers.add((InitiativeController)builder.build());
                     try {
-                        if(!dbConnector.getInitiativeDAO().initiativeExists(txt_Name.getText()))
+                        if(!dbConnector.initiativeExists(txt_Name.getText()))
                         {
-                            dbConnector.getInitiativeDAO().addInitiative(
-                                    (Initiative) (((InitiativeController.InitiativeControllerBuilder) builder)
-                                            .issueBuilder.
-                                            build())
+                            dbConnector.addInitiative((InitiativeController)
+                                    ((InitiativeController.InitiativeControllerBuilder) builder)
+                                            .build()
                             );
                         }
                     } catch (SQLException throwables) {
@@ -162,13 +162,22 @@ public class CreateController extends BaseUiControllerAbstract{
                                     mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
                             )
                             .issueBuilder
-                            .dueDate(calendar)
+                            .priority(Integer.parseInt(txt_Priority.getText()))
+                            .dueDateString(dueDate.getYear(), dueDate.getMonthValue(), dueDate.getDayOfMonth())
+                            .addAssignee(txt_Assignees.getText())
                             .name(txt_Name.getText())
                             .description(txt_Description.getText());
 
                     for(InitiativeController initiative: mainController.initiativeControllers){
-                        if(initiative.getName().equals(comboBox_RelatedIssue.getValue()))
-                            initiative.addIssueController((EpicController)builder.build());
+                        if(initiative.getName().equals(comboBox_RelatedIssue.getValue())) {
+                            try {
+                                EpicController epicController = (EpicController) builder.build();
+                                dbConnector.addEpic(epicController);
+                                dbConnector.addRelation(initiative, epicController);
+                            } catch (SQLException | InvalidArgumentException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                     break;
                 case "story":
@@ -179,13 +188,21 @@ public class CreateController extends BaseUiControllerAbstract{
                                     mainController.findThemeControllerByName(comboBox_ThemesList.getValue())
                             )
                             .issueBuilder
-                            .dueDate(calendar)
+                            .priority(Integer.parseInt(txt_Priority.getText()))
+                            .dueDateString(dueDate.getYear(), dueDate.getMonthValue(), dueDate.getDayOfMonth())
+                            .addAssignee(txt_Assignees.getText())
                             .name(txt_Name.getText())
                             .description(txt_Description.getText());
                     for(InitiativeController initiative: mainController.initiativeControllers){
                         for(EpicController epic: initiative.getIncludedIssuesList()){
                             if(epic.getName().equals(comboBox_RelatedIssue.getValue()))
-                                epic.addIssueController((StoryController)builder.build());
+                                try {
+                                    StoryController storyController = (StoryController) builder.build();
+                                    dbConnector.addStory(storyController);
+                                    dbConnector.addRelation(epic, storyController);
+                                } catch (SQLException | InvalidArgumentException e) {
+                                    e.printStackTrace();
+                                }
                         }
                     }
                     break;

@@ -93,6 +93,7 @@ public class MainController extends BaseUiControllerAbstract{
 
         try {
             themeControllers = dbConnector.getThemeControllers();
+            initiativeControllers = dbConnector.getInitiativeControllers();
         }
         catch (SQLException ignored){
 

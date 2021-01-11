@@ -15,40 +15,19 @@ public class Theme extends EntityAbstract{
      * This is a class that is used to build a Theme class.
      */
     public static class ThemeBuilder extends EntityBuilderAbstract {
-        /**
-         * Name of the Theme
-         */
-        String themeName;
 
-        /**
-         *  Description of the Theme
-         */
-        String themeDescription;
-
-        /**
-         * Name setter
-         * @param name Name the needs to be set in the Builder
-         * @return The same object with changed property
-         */
-        public ThemeBuilder name(String name){
-            themeName = name;
+        @Override
+        public EntityBuilderAbstract name(String name){
+            fieldName = name;
             return this;
         }
 
-        /**
-         * Description setter
-         * @param description Description of the Theme that needs to be set to the Builder
-         * @return The same object with changed property
-         */
-        public ThemeBuilder description(String description){
-            themeDescription = description;
+        @Override
+        public EntityBuilderAbstract description(String description){
+            fieldDescription = description;
             return this;
         }
 
-        /**
-         * Build method
-         * @return Object that was build
-         */
         @Override
         public EntityAbstract build(){
             return new Theme(this);
@@ -67,6 +46,6 @@ public class Theme extends EntityAbstract{
      * @param builder Builder that is used to build object
      */
     public Theme(ThemeBuilder builder){
-        super(builder.themeName, builder.themeDescription);
+        super(builder.fieldName, builder.fieldDescription);
     }
 }
