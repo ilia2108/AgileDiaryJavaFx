@@ -140,7 +140,7 @@ Too many classes? Let's make it clear:
 ```DatabaseConnector```, which works with all the logic from Main;
 * The connector uses **Data Access Object** (DAO) for each entity.
 Each of them cooperates with MySQL database;
-* Each DAO is **inherited from ```BasicDAO``**.
+* Each DAO is **inherited from ```BasicDAO```**.
 It sets up the common thing (e.g. connection).
 
 The database schema is the following:
