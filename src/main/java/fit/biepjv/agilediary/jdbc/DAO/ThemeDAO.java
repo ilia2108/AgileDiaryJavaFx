@@ -183,7 +183,7 @@ public class ThemeDAO extends BasicDAO {
 
         try {
             connection = getDBConnection();
-            String query = "select issue_id from themes where theme_name=?";
+            String query = "select theme_id from themes where theme_name=?";
             statement = connection.prepareStatement(query);
             int counter = 1;
             statement.setString(counter, theme.getName());
@@ -191,7 +191,7 @@ public class ThemeDAO extends BasicDAO {
             ResultSet rs = statement.executeQuery();
 
             if(rs.next()){
-                result = rs.getInt("issue_id");
+                result = rs.getInt("theme_id");
             }
             rs.close();
         }
