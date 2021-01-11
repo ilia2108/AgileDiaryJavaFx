@@ -4,6 +4,20 @@ This is a Java FX desktop application
 that stands for managing project using [Agile](https://www.atlassian.com/agile/project-management/epics-stories-themes)
 methodology.
 
+## Contents
+- [What is needed?](https://github.com/ilia2108/AgileDiaryJavaFx#requirements)
+- [What is actually a problem?](https://github.com/ilia2108/AgileDiaryJavaFx#problem)
+- [How could it be solved?](https://github.com/ilia2108/AgileDiaryJavaFx#solution)
+- [How the solution was designed?](https://github.com/ilia2108/AgileDiaryJavaFx#solution)
+  - [Model-View-Controller implementation](https://github.com/ilia2108/AgileDiaryJavaFx#model-view-controller)
+    - [Model](https://github.com/ilia2108/AgileDiaryJavaFx#model)
+    - [View](https://github.com/ilia2108/AgileDiaryJavaFx#view)
+    - [Controller](https://github.com/ilia2108/AgileDiaryJavaFx#controller)
+  - [Builder implementation](https://github.com/ilia2108/AgileDiaryJavaFx#builder)
+  - [Database and all that...](https://github.com/ilia2108/AgileDiaryJavaFx#jdbc)
+- [How to deploy?](https://github.com/ilia2108/AgileDiaryJavaFx#deployment-manual)
+
+
 ## Requirements
 
 Tou need to know **how to work with Java** and **JavaFX**.
@@ -37,8 +51,6 @@ It contains set of epics.
 * **Story**. The smallest possible amount.
 
 ## Architecture
-
-### Desgin
 
 This application uses two popular design patterns:
 [**Model-View-Controller**](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller) (MVC)
