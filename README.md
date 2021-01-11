@@ -99,7 +99,7 @@ This application uses two popular design patterns:
  The controllers architecture can be found here:
  ![alt text](Controller.png "Controller")
  
- As you can see, **it is the same as Model** (todo: add link to model).
+ As you can see, **it is the same as [Model](https://github.com/ilia2108/AgileDiaryJavaFx#model)**.
  So you can have a look at the explanation there. 
  The only thing that I would like to add is the following diagram of
   controllers usage:
@@ -119,7 +119,7 @@ This application uses two popular design patterns:
  straight changes outside of controllers. **Each model and controller** class
  has its own builder. 
  
- The **common hierarchy also applies as in Model**, but there's 
+ The **common hierarchy also applies as in [Model](https://github.com/ilia2108/AgileDiaryJavaFx#model)**, but there's 
  something special special descripbed here:
  
  ![alt text](Builder.png "Builder implementation")
