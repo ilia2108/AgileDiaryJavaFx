@@ -115,6 +115,7 @@ public class CreateController extends BaseUiControllerAbstract{
 
     @FXML
     public void initialize() {
+        // UI setup
         stage.setTitle("Add " + type);
         txt_Heading.setText("Add a " + type);
         vBox_IssuesForm.setVisible(!type.equals("theme"));
@@ -127,6 +128,8 @@ public class CreateController extends BaseUiControllerAbstract{
                         comboBox_ThemesList.getItems().get(0)
         );
         String relatedIssueText = "Related ";
+
+        //setup all ui elements based on its type
         switch (type){
             case "epic":
                 relatedIssueText += "Initiative";
@@ -159,17 +162,18 @@ public class CreateController extends BaseUiControllerAbstract{
         }
         txt_RelatedIssue.setText(relatedIssueText);
 
+        //button add click event
         btn_Add.setOnMouseClicked(addItem -> {
             BaseControllerAbstract.BaseControllerBuilderAbstract builder;
             Calendar calendar = Calendar.getInstance();
             LocalDate dueDate = datePicker_DueDate.getValue();
+            //add an entity to db based on its type
             switch (type){
                 case "theme":
                     builder = new ThemeController.ThemeControllerBuilder();
                     builder.entityBuilder
                             .name(txt_Name.getText())
                             .description(txt_Description.getText());
-                    //mainController.themeControllers.add((ThemeController)builder.build());
                     try {
                         if(!dbConnector.themeExists(txt_Name.getText()))
                             dbConnector.addTheme((Theme) builder.entityBuilder.build());
@@ -186,7 +190,6 @@ public class CreateController extends BaseUiControllerAbstract{
                             )
                             .issueBuilder
                             .priority(Integer.parseInt(txt_Priority.getText()))
-                            //.dueDate(calendar)
                             .dueDateString(dueDate.getYear(), dueDate.getMonthValue(), dueDate.getDayOfMonth())
                             .addAssignee(txt_Assignees.getText())
                             .name(txt_Name.getText())
@@ -258,6 +261,8 @@ public class CreateController extends BaseUiControllerAbstract{
                     }
                     break;
             }
+
+            //loading the main page
             FXMLLoader oldLoader = new FXMLLoader(Main.class.getResource("views/MainPage.fxml"));
             oldLoader.setController(mainController);
             Parent oldRoot = null;
