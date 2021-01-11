@@ -11,8 +11,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
-/**<b>Event handler for clicking the <>i"Add"</i> button</b>
- *
+/**<b>Event handler for clicking the <i>"Add"</i> button</b>
+ * This class is used to describe the behaviour when the adding event is executed.
  */
 public abstract class AddIssueEventHandler implements EventHandler<Event> {
     /**
