@@ -1,30 +1,40 @@
 package fit.biepjv.agilediary.events.handlers;
 
 import fit.biepjv.agilediary.Main;
-import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.controllers.UiControllers.CreateController;
 import fit.biepjv.agilediary.controllers.UiControllers.MainController;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.time.LocalDate;
-import java.util.List;
 
+/**<b>Event handler for clicking the <>i"Add"</i> button</b>
+ *
+ */
 public abstract class AddIssueEventHandler implements EventHandler<Event> {
+    /**
+     * Type of entity to add
+     */
     String type;
+    /**
+     * Instance of Main Controller
+     */
     MainController mainController;
+
+    /**
+     * Base stage to change
+     */
     Stage stage;
 
+    /**
+     * Constructor based on entity type, stage and controller instance
+     * @param type Type of entity
+     * @param stage Default stage
+     * @param controller Instance of main controller
+     */
     public AddIssueEventHandler(String type,
                                 Stage stage,
                                MainController controller){
@@ -32,15 +42,19 @@ public abstract class AddIssueEventHandler implements EventHandler<Event> {
         this.mainController = controller;
         this.stage = stage;
     }
-    public AddIssueEventHandler(String type, MainController controller){
-        this.type = type;
-        this.mainController = controller;
 
-    }
+    /**
+     * Entity type getter
+     * @return
+     */
     public String getType(){
         return type;
     }
 
+    /**
+     * Function that is executed when the event is triggered
+     * @param event Event that was triggered
+     */
     public void handle(Event event){
         FXMLLoader loader = new FXMLLoader(Main.class.getResource("views/CreatePage.fxml"));
         Parent root = null;
