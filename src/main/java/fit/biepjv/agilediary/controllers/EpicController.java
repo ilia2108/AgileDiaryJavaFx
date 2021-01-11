@@ -7,9 +7,18 @@ import fit.biepjv.agilediary.models.Story;
 import java.util.ArrayList;
 import java.util.List;
 
+/** <b>Epic Controller class</b>
+ * This class stands for controlling the instance of {@code Epic}
+ */
 public class EpicController extends IssueControllerAbstract{
 
+    /**<b>Epic Controller Builder class</b>
+     * This stands for building new instance of Epic Controller.
+     */
     public static class EpicControllerBuilder extends IssueControllerBuilderAbstract{
+        /**
+         * Default constructor
+         */
         public EpicControllerBuilder(){
             issueBuilder = new Epic.EpicBuilder();
         }
@@ -19,12 +28,25 @@ public class EpicController extends IssueControllerAbstract{
         }
     }
 
+    /**
+     * Default constructor
+     */
     public EpicController(){
         issue = new Epic();
     }
+
+    /**
+     * Constructor based on builder
+     * @param builder Epic Controller builder instance
+     */
     public EpicController(EpicControllerBuilder builder){
         super(builder);
     }
+
+    /**
+     * Constructor based on Model object
+     * @param epic {@code Epic} instance
+     */
     public EpicController(Epic epic){
         issue = epic;
     }
