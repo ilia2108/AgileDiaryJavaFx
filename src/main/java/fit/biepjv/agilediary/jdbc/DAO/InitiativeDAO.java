@@ -2,7 +2,6 @@ package fit.biepjv.agilediary.jdbc.DAO;
 
 import fit.biepjv.agilediary.models.Epic;
 import fit.biepjv.agilediary.models.Initiative;
-import fit.biepjv.agilediary.models.Story;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,11 +12,21 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
+/**<b>Initiative DAO class</b>
+ * This is a Data Access Object (DAO) of Initiative entity.
+ */
 public class InitiativeDAO extends BasicDAO {
 
-    public InitiativeDAO(){
-        //epic = new EpicDAO();
-    }
+    /**
+     * Default constructor
+     */
+    public InitiativeDAO(){ }
+
+    /**
+     * Method that creates an object from result of executed query.
+     * @param rs ResultSet from executed query
+     * @return Initiative object
+     */
     private Initiative createInitiative(ResultSet rs){
         Initiative initiative = new Initiative();
         Calendar time = Calendar.getInstance();
@@ -40,6 +49,12 @@ public class InitiativeDAO extends BasicDAO {
         return initiative;
     }
 
+    /**
+     * Method that checks if such an initiative exists
+     * @param initiativeName Initiative name
+     * @return True if initiative exists or false if not
+     * @throws SQLException Error in DB
+     */
     public boolean initiativeExists(String initiativeName) throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -73,6 +88,11 @@ public class InitiativeDAO extends BasicDAO {
         return false;
     }
 
+    /**
+     * Method that gets all initiatives from DB
+     * @return List of all initiatives
+     * @throws SQLException Error in DB
+     */
     public List<Initiative> getInitiatives() throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -105,6 +125,12 @@ public class InitiativeDAO extends BasicDAO {
         return new ArrayList<>();
     }
 
+    /**
+     * Method that gets all epics that are included in the initiative
+     * @param initiativeId Integer ID of the Initiative
+     * @return List of epics
+     * @throws SQLException Error in DB
+     */
     public static List<Epic> findIncludedStories(int initiativeId) throws SQLException {
         List<Epic> result = new ArrayList<>();
 
@@ -143,6 +169,12 @@ public class InitiativeDAO extends BasicDAO {
         return result;
     }
 
+    /**
+     * Method that gets ID from DB of the given object
+     * @param initiative Initiative object
+     * @return Integer ID from DB
+     * @throws SQLException Error in DB
+     */
     public static int getId(Initiative initiative) throws SQLException{
         int result = 0;
         Connection connection = null;
@@ -176,6 +208,12 @@ public class InitiativeDAO extends BasicDAO {
         return result;
     }
 
+    /**
+     * Method that adds epic to the initiative
+     * @param initiative Initiative object
+     * @param epic Epic object
+     * @throws SQLException Error in DB
+     */
     public void addEpic(Initiative initiative, Epic epic) throws SQLException {
         int initiativeId = getId(initiative);
         int epicId = EpicDAO.getId(epic);

@@ -11,8 +11,16 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
+/** <b>Epic DAO</b>
+ * This class represents tha Data Access Object (DAO) of Epic entity
+ */
 public class EpicDAO extends BasicDAO{
 
+    /**
+     * Method that creates Epic object from ResultSet (result of query)
+     * @param rs ResultSet of executed query
+     * @return Epic object
+     */
     public static Epic createEpic(ResultSet rs){
         Epic epic = new Epic();
         Calendar time = Calendar.getInstance();
@@ -38,6 +46,12 @@ public class EpicDAO extends BasicDAO{
         return new Epic();
     }
 
+    /**
+     * Method that checks if epicExists
+     * @param epicName Name of epic
+     * @return True if epic exists or false if not
+     * @throws SQLException Error in DB
+     */
     public boolean epicExists(String epicName) throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -70,6 +84,11 @@ public class EpicDAO extends BasicDAO{
         return false;
     }
 
+    /**
+     * Method that gets all epics from DB
+     * @return List of epics
+     * @throws SQLException Error in DB
+     */
     public List<Epic> getEpics() throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -100,6 +119,12 @@ public class EpicDAO extends BasicDAO{
         return new ArrayList<>();
     }
 
+    /**
+     * Method that gets ID of Epic object
+     * @param epic Epic object
+     * @return Integer ID of the given object
+     * @throws SQLException Error in DB
+     */
     public static int getId(Epic epic) throws SQLException{
         int result = -1;
         Connection connection = null;
@@ -133,6 +158,12 @@ public class EpicDAO extends BasicDAO{
         return result;
     }
 
+    /**
+     * Method that finds all included stories in the epic
+     * @param epicId Interger ID if the epic in DB
+     * @return List of Story
+     * @throws SQLException Error in DB
+     */
     public static List<Story> findIncludedStories(int epicId) throws SQLException {
         List<Story> result = new ArrayList<>();
 
@@ -168,6 +199,12 @@ public class EpicDAO extends BasicDAO{
         return result;
     }
 
+    /**
+     * Method that adds story to the epic
+     * @param epic Epic object
+     * @param story Story object
+     * @throws SQLException Error in DB
+     */
     public void addStory(Epic epic, Story story) throws SQLException {
         int storyId = StoryDAO.getId(story);
         int epicId = getId(epic);

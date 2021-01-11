@@ -1,8 +1,6 @@
 package fit.biepjv.agilediary.jdbc.DAO;
 
-import fit.biepjv.agilediary.jdbc.DatabaseConnector;
 import fit.biepjv.agilediary.models.Story;
-import fit.biepjv.agilediary.models.Theme;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,8 +11,16 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 
+/** <b>Story DAO class</b>
+ * This class represents Data Access Object (DAO) of Data entity.
+ */
 public class StoryDAO extends BasicDAO{
 
+    /**
+     * Method that crates Story object based on result of executed query
+     * @param rs ResultSeet from query
+     * @return Story object
+     */
     public static Story craeteStory(ResultSet rs){
         Story story = new Story();
         Calendar time = Calendar.getInstance();
@@ -36,6 +42,12 @@ public class StoryDAO extends BasicDAO{
         return story;
     }
 
+    /**
+     * Method that checks if story with given name exists
+     * @param name Story name
+     * @return True if story exists or false if not
+     * @throws SQLException
+     */
     public boolean storyExists(String name) throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -66,6 +78,12 @@ public class StoryDAO extends BasicDAO{
         }
         return false;
     }
+
+    /**
+     * Method that adds given Story object to the DB
+     * @param story Story object
+     * @throws SQLException Error in DB
+     */
     public void addStory(Story story) throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -99,6 +117,12 @@ public class StoryDAO extends BasicDAO{
                 statement.close();
         }
     }
+
+    /**
+     * Method that gets all stories
+     * @return List of all stories
+     * @throws SQLException Error in DB
+     */
     public List<Story> getStories() throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
@@ -128,6 +152,12 @@ public class StoryDAO extends BasicDAO{
         return new ArrayList<>();
     }
 
+    /**
+     * Method that gets ID from DB of given object
+     * @param story Story object
+     * @return Integer ID from DB
+     * @throws SQLException Error in DB
+     */
     public static int getId(Story story) throws SQLException{
         int result = 0;
         Connection connection = null;

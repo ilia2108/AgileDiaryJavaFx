@@ -1,27 +1,55 @@
 package fit.biepjv.agilediary.jdbc.DAO;
 
-import com.sun.rowset.CachedRowSetImpl;
 import fit.biepjv.agilediary.models.IssueAbstract;
 
-import javax.script.ScriptEngine;
 import java.sql.*;
-import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**<b>Basic DAO class</b>
+ * This class represents the basic Data Access Object (DAO).
+ * It contains all information that is used by its children
+ */
 public abstract class BasicDAO {
+    /**
+     * Logger
+     */
     protected static final Logger logger = Logger.getLogger(BasicDAO.class.getName());
-    public static String DB_NAME = "agileDiary";
-    public static final String DB_URL =
-            "jdbc:mysql://localhost:3306/" + DB_NAME;
-    //    public static final String DRIVER =
-//            "com.mysql.jdbc.Driver";
-    public static final String DRIVER =
-            "com.mysql.cj.jdbc.Driver";
-    public static final String USER = "root";
-    public static final String PASS = "somesecret";
-    //public static final String PASS = "password";
 
+    /**
+     * Name of the database
+     */
+    static String DB_NAME = "agileDiary";
+
+    /**
+     * URL to the database
+     */
+    static final String DB_URL =
+            "jdbc:mysql://localhost:3306/" + DB_NAME;
+
+
+    /**
+     * Name of the JDBC driver class
+     */
+    static final String DRIVER =
+            "com.mysql.cj.jdbc.Driver";
+
+
+    /**
+     * User login
+     */
+    static final String USER = "root";
+
+    /**
+     * Password to access DB
+     */
+    static final String PASS = "somesecret";
+
+    /**
+     * Method that gets basic connection to MySQL database
+     * @return
+     * @throws SQLException Error in DB
+     */
     public static Connection getDBConnection() throws SQLException {
         Connection connection = null;
 
@@ -41,13 +69,18 @@ public abstract class BasicDAO {
         return connection;
     }
 
+    /**
+     * Method that adds relation to the database
+     * @param motherId ID integer of the mother issue
+     * @param childId ID integer of the child issue
+     * @throws SQLException Error in DB
+     */
     public static void addRelation(int motherId, int childId) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
 
         try {
             connection = getDBConnection();
-            //connection.setAutoCommit(false);
             String query = "insert into issues_relations(mother_issue_id, child_issue_id) values(?,?)";
             statement = connection.prepareStatement(query);
             statement.setString(1, Integer.toString(motherId));
@@ -64,6 +97,12 @@ public abstract class BasicDAO {
         }
     }
 
+    /**
+     * Method that finds issue by id
+     * @param issueId id is the issue
+     * @return ResultSet of the query
+     * @throws SQLException Error in DB
+     */
     public static ResultSet findIssueById(int issueId) throws SQLException {
         Connection connection = null;
         PreparedStatement statement = null;
