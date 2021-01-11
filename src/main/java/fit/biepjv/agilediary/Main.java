@@ -12,11 +12,18 @@ import javafx.stage.Stage;
 
 
 /**
- * This is a main class of the application.
+ * This is a <b>main class</b> of the application
  */
 public class Main extends javafx.application.Application {
 
+    /**
+     * Controller of the first (main) page
+     */
     MainController mainController;
+
+    /**
+     * Class that connects to database
+     */
     DatabaseConnector dbConnector;
 
     @Override
@@ -43,7 +50,6 @@ public class Main extends javafx.application.Application {
 
         mainController.btn_AddDefault.setOnMouseClicked(themeAdd);
     }
-
 
     public static void main(String[] args){
         launch(args);
