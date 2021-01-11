@@ -11,6 +11,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 
+/**
+ * This is a main class of the application.
+ */
 public class Main extends javafx.application.Application {
 
     MainController mainController;
