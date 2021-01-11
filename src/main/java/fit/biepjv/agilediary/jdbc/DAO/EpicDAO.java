@@ -141,7 +141,6 @@ public class EpicDAO extends BasicDAO{
 
         try {
             connection = getDBConnection();
-
             String query = "select child_issue_id from issues_relations where mother_issue_id = ?";
 
             statement = connection.prepareStatement(query);
