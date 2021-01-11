@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class InitiativeDAO extends BasicDAO {
+
+    public InitiativeDAO(){
+        //epic = new EpicDAO();
+    }
     private Initiative createInitiative(ResultSet rs){
         Initiative initiative = new Initiative();
         Calendar time = Calendar.getInstance();
@@ -68,46 +72,17 @@ public class InitiativeDAO extends BasicDAO {
         }
         return false;
     }
-    public void addInitiative(Initiative initiative) throws SQLException{
-        Connection connection = null;
-        PreparedStatement statement = null;
 
-        try{
-            connection = getDBConnection();
-            String query = "insert into issues(issue_name, issue_des, issue_type, due_date, priority, assignee, theme_id)" +
-                    "values (?, ?, ?, ?, ?, ?, ?)";
-            statement = connection.prepareStatement(query);
-
-            int counter = 1;
-            statement.setString(counter++, initiative.getName());
-            statement.setString(counter++, initiative.getDescription());
-            statement.setString(counter++, "initiative");
-            statement.setString(counter++, initiative.getCalendarString());
-            statement.setString(counter++, initiative.getPriority().toString());
-            statement.setString(counter++, initiative.getAssignees().get(0));
-            int themeId = ThemeDAO.getId(initiative.getThemes().get(0));
-            statement.setString(counter++, Integer.toString(themeId));
-
-            statement.executeUpdate();
-        }
-        catch (SQLException e){
-            logger.log(Level.SEVERE, e.getMessage());
-        }
-        finally {
-            if(connection != null)
-                connection.close();
-            if(statement != null)
-                statement.close();
-        }
-    }
     public List<Initiative> getInitiatives() throws SQLException{
         Connection connection = null;
         PreparedStatement statement = null;
 
         try{
             connection = getDBConnection();
-            String query = "select * from issues where issue_type=initiative";
+            String query = "select * from issues where issue_type=?";
             statement = connection.prepareStatement(query);
+            statement.setString(1, "initiative");
+
             ResultSet rs = statement.executeQuery();
 
             List<Initiative> initiatives = new ArrayList<>();
@@ -130,7 +105,7 @@ public class InitiativeDAO extends BasicDAO {
         return new ArrayList<>();
     }
 
-    public List<Epic> findIncludedStories(int initiativeId) throws SQLException {
+    public static List<Epic> findIncludedStories(int initiativeId) throws SQLException {
         List<Epic> result = new ArrayList<>();
 
         Connection connection = null;
@@ -146,10 +121,12 @@ public class InitiativeDAO extends BasicDAO {
 
             ResultSet rs = statement.executeQuery();
 
-            if(rs.next()){
+            while (rs.next()){
+                ResultSet epicRs = BasicDAO.findIssueById(rs.getInt("child_issue_id"));
                 result.add(EpicDAO.createEpic(
-                        EpicDAO.findIssueById(rs.getInt("issue_id")))
+                        epicRs)
                 );
+                epicRs.close();
             }
             rs.close();
         }
@@ -174,7 +151,7 @@ public class InitiativeDAO extends BasicDAO {
         try {
             connection = getDBConnection();
             connection.setAutoCommit(false);
-            String query = "select issue_id in issues where issue_name=?";
+            String query = "select issue_id from issues where issue_name=?";
             statement = connection.prepareStatement(query);
             int counter = 1;
             statement.setString(counter, initiative.getName());

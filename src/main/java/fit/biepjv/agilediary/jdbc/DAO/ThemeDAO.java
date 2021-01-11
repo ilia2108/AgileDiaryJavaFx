@@ -35,7 +35,7 @@ public class ThemeDAO extends BasicDAO {
             while (rs.next()){
                 themes.add(createTheme(rs));
             }
-
+            rs.close();
             return !themes.isEmpty();
 
         } catch (SQLException e){
@@ -66,6 +66,7 @@ public class ThemeDAO extends BasicDAO {
             while (rs.next()){
                 themes.add(createTheme(rs));
             }
+            rs.close();
 
         } catch (SQLException e){
             logger.log(Level.SEVERE, e.getMessage());
@@ -79,7 +80,6 @@ public class ThemeDAO extends BasicDAO {
 
         return themes;
     }
-
 
     public void addTheme(Theme theme) throws SQLException{
         Connection connection = null;
@@ -106,5 +106,16 @@ public class ThemeDAO extends BasicDAO {
             if(statement != null)
                 statement.close();
         }
+    }
+
+    public static Theme findById(int id){
+        Theme result = new Theme();
+        //todo: implement
+        return result;
+    }
+
+    public static int getId(Theme theme){
+        //todo: implement
+        return 1;
     }
 }
