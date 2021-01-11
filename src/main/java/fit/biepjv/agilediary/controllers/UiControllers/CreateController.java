@@ -4,7 +4,6 @@ import com.sun.javaws.exceptions.InvalidArgumentException;
 import fit.biepjv.agilediary.Main;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.jdbc.DatabaseConnector;
-import fit.biepjv.agilediary.models.Initiative;
 import fit.biepjv.agilediary.models.Theme;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,43 +18,95 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.Calendar;
 
+/** <b>Crate Page Controller</b>
+ * This class stands for controlling the behaviour of Create page.
+ * It creates all entities in the project.
+ */
 public class CreateController extends BaseUiControllerAbstract{
+    /**
+     * JavaFX Label representing page heading
+     */
     @FXML
     public Label txt_Heading;
 
+    /**
+     * JavaFX Stack representing fields for issues only
+     */
     @FXML
     public VBox vBox_IssuesForm;
 
+    /**
+     * JavaFX Button for adding the entity
+     */
     @FXML
     public Button btn_Add;
 
+    /**
+     * JavaFX TextArea representing entity heading
+     */
     @FXML
     public TextArea txt_Name;
 
+    /**
+     * JavaFX TextArea representing entity description
+     */
     @FXML
     public TextArea txt_Description;
 
+    /**
+     * JavaFX TextArea representing assignees
+     */
     @FXML
     public TextArea txt_Assignees;
 
+    /**
+     * JavaFX TextArea representing priority
+     */
     @FXML
     public TextArea txt_Priority;
 
+    /**
+     * JavaFX ComboBox representing list of available themes
+     */
     @FXML
     public ComboBox<String> comboBox_ThemesList;
 
+    /**
+     * JavaFX DatePicker to select deadline date
+     */
     @FXML
     public DatePicker datePicker_DueDate;
 
+    /**
+     * JavaFX Label representing related issue name
+     * (supports text for corresponding ComboBox)
+     */
     @FXML
     public Label txt_RelatedIssue;
 
+    /**
+     * JavaFX ComboBox representing list of related issues
+     */
     @FXML
     public ComboBox<String> comboBox_RelatedIssue;
 
+    /**
+     * Type of entity that needs to be created
+     */
     String type;
+
+    /**
+     * Instance of MainController
+     */
     MainController mainController;
 
+    /**
+     * Controller based on stage, db connector, entity type and mainController entity
+     * @param stage Stage from Main page
+     * @param connector Database connector
+     * @param type Type of entity to create
+     * @param mainController Instance of main controller
+     */
     public CreateController(Stage stage, DatabaseConnector connector, String type, MainController mainController){
         super(stage, connector);
         this.type = type;

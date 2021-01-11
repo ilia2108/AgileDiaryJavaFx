@@ -3,10 +3,8 @@ package fit.biepjv.agilediary.controllers.UiControllers;
 import fit.biepjv.agilediary.controllers.*;
 import fit.biepjv.agilediary.events.handlers.AddIssueEventHandler;
 import fit.biepjv.agilediary.jdbc.DatabaseConnector;
-import fit.biepjv.agilediary.models.Theme;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.scene.chart.XYChart;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,72 +16,104 @@ import javafx.stage.Stage;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-/*
-    \class Main Controller class
-    \brief Default "facade" between View and Model
-
-    This is a basic controller class. It contains all other controllers and supports displaying of View.
+/** <b>Main Controller class</b>
+ * This is a controller class of first (main) page. It contains all other controllers and supports displaying of View.
  */
 public class MainController extends BaseUiControllerAbstract{
-    public static Map<String, BaseControllerAbstract> controllersList = initControllers();
-
+    /**
+     * List of Theme controllers
+     */
     public List<ThemeController> themeControllers = new ArrayList<>();
+
+    /**
+     * List of Initiative controllers
+     */
     public List<InitiativeController> initiativeControllers = new ArrayList<>();
 
-    //Stage stage = new Stage();
-
+    /**
+     * Constructor based on stage and connector
+     * @param stage JavaFX Stage
+     * @param connector Database connector object
+     */
     public MainController(Stage stage, DatabaseConnector connector){
         super(stage, connector);
     }
 
+    /**
+     * Database connector setter
+     * @return Database connector
+     */
     public DatabaseConnector getDbConnector(){
         return dbConnector;
     }
 
-    private static Map<String, BaseControllerAbstract> initControllers(){
-        Map<String, BaseControllerAbstract> result = new HashMap<>();
-
-        result.put("theme", new ThemeController());
-        result.put("initiative", new InitiativeController());
-        result.put("epic", new EpicController());
-        result.put("story", new StoryController());
-
-        return result;
-    }
-
+    /**
+     * JavaFX Button to add theme
+     */
     @FXML
     public Button btn_AddTheme;
 
+    /**
+     * JavaFX Button to add initiative
+     */
     @FXML
     public Button btn_AddInitiative;
 
+    /**
+     * JavaFX Button to add epic
+     */
     @FXML
     public Button btn_AddEpic;
 
+    /**
+     * JavaFX Button to add story
+     */
     @FXML
     public Button btn_AddStory;
 
+    /**
+     * JavaFX Grid displaying default view
+     */
     @FXML
     public GridPane grid_noContent;
+
+    /**
+     * JavaFX Grid displaying issues list
+     */
     @FXML
     public GridPane grid_Issues;
+
+    /**
+     * JavaFX Grid with adding buttons
+     */
     @FXML
     public GridPane grid_AddButtons;
+
+    /**
+     * JavaFX Grid describing themes
+     */
     @FXML
     public GridPane grid_themes;
-    @FXML
-    public Label txt_Intro;
+
+    /**
+     * JavaFX Accordion describing issues
+     */
     @FXML
     public Accordion accordion_Items;
+
+    /**
+     * JavaFX Button that adds first theme in default view
+     */
     @FXML
     public Button btn_AddDefault;
+
+    /**
+     * JavaFX Stack of themes
+     */
     @FXML
     public VBox vBox_Themes;
-
 
 
     @FXML
@@ -156,6 +186,11 @@ public class MainController extends BaseUiControllerAbstract{
 
     }
 
+    /**
+     * Method that searches for ThemeController with specific name
+     * @param name Name of controller to search
+     * @return Theme Controller with the name
+     */
     public ThemeController findThemeControllerByName(String name){
         for(ThemeController controller: themeControllers){
             if(controller.getName().equals(name))
