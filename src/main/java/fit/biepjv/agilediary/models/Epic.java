@@ -14,7 +14,7 @@ public class Epic extends IssueAbstract{
     List<Story> stories;
 
     /** <b>Builder of Epic class</b>
-     * This class describes the builder
+     * This class describes the builder of Epic object.
      */
     public static class EpicBuilder extends IssueBuilderAbstract{
         /**
