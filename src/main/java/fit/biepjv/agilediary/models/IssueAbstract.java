@@ -24,7 +24,7 @@ public abstract class IssueAbstract extends EntityAbstract{
     protected List<String> assignees = new ArrayList<>();
 
     /**
-     * Priority of issue (1-10). The lowest number - the less issue is important.
+     * Priority of issue (1-10). The lowest number - the less issue is important
      */
     protected Integer priority;
 
@@ -41,11 +41,11 @@ public abstract class IssueAbstract extends EntityAbstract{
     /**
      * <b>Abstract class of Issue Builder</b>
      * This is the builder that is used to build an object of Issue.
-     * The inheritance hierarchy corresponds the Model inheritance.
+     * The inheritance hierarchy corresponds the Model inheritance
      */
     public abstract static class IssueBuilderAbstract extends EntityAbstract.EntityBuilderAbstract{
         /**
-         * Deadline date of issue.
+         * Deadline date of issue
          */
         protected Calendar fieldDueDate;
 
@@ -65,7 +65,7 @@ public abstract class IssueAbstract extends EntityAbstract{
         protected List<Theme> fieldThemes = new ArrayList<>();
 
         /**
-         *  String representation of date.
+         *  String representation of date
          */
         protected String calendarString;
 
@@ -245,7 +245,7 @@ public abstract class IssueAbstract extends EntityAbstract{
     }
 
     /**
-     * Method that gets list of issues that are included in existing one.
+     * Method that gets list of issues that are included in existing one
      * @return List of included issues
      */
     public abstract List<? extends IssueAbstract> getSubIssues();
@@ -288,7 +288,7 @@ public abstract class IssueAbstract extends EntityAbstract{
     /**
      * Issue priority setter
      * @param priority Integer that represents priority from 1 to 10 inclusive.
-     *                 The more integer is - the higher issue priority is.
+     *                 The more integer is - the higher issue priority is
      */
     public void setPriority(Integer priority){
         this.priority = priority;
